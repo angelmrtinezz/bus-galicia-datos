@@ -1,6 +1,6 @@
 {
   "formato": 1,
-  "generado": "2026-11-10T17:29:19.839Z",
+  "generado": "2026-11-10T18:32:41.063Z",
   "hashGtfs": "a57559b09908c44ea6966cde24dc708262071b742e237793e97c5c10910efe90",
   "desde": "20261110",
   "hasta": "20261116",
@@ -11,7 +11,7 @@
     },
     "formas": {
       "nombre": "formas.json",
-      "bytes": 307554
+      "bytes": 309597
     }
   },
   "fuente": "GTFS de Vitrasa · Concello de Vigo (Open Data Commons Attribution License)"
