@@ -1,0 +1,74 @@
+# Robot que mantiene al día los horarios de Vitrasa para la app Bus Galicia.
+#
+# Cada día descarga el GTFS oficial del Concello de Vigo. Si ha cambiado, lo compila
+# (horarios.json + formas.json), comprueba que es válido y lo publica en GitHub Pages,
+# de donde lo descarga la app. Si algo falla, no publica nada y la app sigue con lo anterior.
+
+name: Actualizar horarios
+
+on:
+  schedule:
+    - cron: '17 4 * * *' # todos los días a las 04:17 UTC (05:17/06:17 en Vigo)
+  workflow_dispatch:
+    inputs:
+      forzar:
+        description: 'Compilar aunque el GTFS no haya cambiado'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar-horarios
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Descargar GTFS de Vitrasa
+        run: |
+          curl -fsSL --retry 4 --retry-delay 20 -A "BusGalicia-datos/1.0" \
+            -o gtfs.zip "https://datos.vigo.org/data/transporte/gtfs_vigo.zip"
+          ls -l gtfs.zip
+          echo "HASH=$(sha256sum gtfs.zip | cut -d' ' -f1)" >> "$GITHUB_ENV"
+
+      - name: ¿Ha cambiado?
+        id: cambio
+        run: |
+          ANTERIOR=$(jq -r '.hashGtfs // ""' datos/version.json 2>/dev/null || echo "")
+          if [ "$HASH" = "$ANTERIOR" ] && [ "${{ inputs.forzar }}" != "true" ]; then
+            echo "El GTFS no ha cambiado ($HASH). Nada que hacer."
+            echo "seguir=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "GTFS nuevo: $ANTERIOR → $HASH"
+            echo "seguir=si" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Compilar horarios y trazados
+        if: steps.cambio.outputs.seguir == 'si'
+        run: |
+          unzip -o -q gtfs.zip -d gtfs
+          node scripts/compilar-gtfs.mjs gtfs datos/horarios.json
+          node scripts/escribir-version.mjs "$HASH"
+
+      - name: Publicar
+        if: steps.cambio.outputs.seguir == 'si'
+        run: |
+          git config user.name "bus-galicia-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add datos/
+          if git diff --cached --quiet; then
+            echo "Sin cambios que publicar."
+          else
+            git commit -m "Horarios $(jq -r '.desde + " → " + .hasta' datos/version.json)"
+            git push
+          fi
