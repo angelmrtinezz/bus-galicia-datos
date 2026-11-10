@@ -261,6 +261,11 @@ const formas = resultado.patrones.map((p) => {
       const d = distPlano(pts[k], parada);
       if (d < mejorD) { mejorD = d; mejor = k; }
     }
+    // En líneas circulares la primera y la última parada coinciden: nos quedamos con el PRIMER
+    // punto del trazado que esté casi tan cerca como el mejor, para no saltar al final de la vuelta.
+    for (let k = desde; k < mejor; k++) {
+      if (distPlano(pts[k], parada) <= mejorD + 15 / 111320) { mejor = k; break; }
+    }
     posParadas.push(mejor);
     malas.push(mejorD * 111320 > 80); // la parada no cae sobre el trazado: no nos fiamos
     desde = mejor;
