@@ -1,6 +1,6 @@
-# Bus Galicia · datos
+# Paradiña · datos
 
-Horarios de Vitrasa (Vigo) ya preparados para la app **Bus Galicia**. Se actualizan solos
+Horarios de Vitrasa (Vigo) ya preparados para la app **Paradiña**. Se actualizan solos
 cada día con un robot de GitHub Actions ([actualizar-horarios.yml](.github/workflows/actualizar-horarios.yml)).
 
 | Archivo | Contenido |

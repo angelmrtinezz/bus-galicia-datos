@@ -1,4 +1,4 @@
-# Robot que mantiene al día los horarios de Vitrasa para la app Bus Galicia.
+# Robot que mantiene al día los horarios de Vitrasa para la app Paradiña.
 #
 # Cada día descarga el GTFS oficial del Concello de Vigo. Si ha cambiado, lo compila
 # (horarios.json + formas.json), comprueba que es válido y lo publica en GitHub Pages,
@@ -36,7 +36,7 @@ jobs:
 
       - name: Descargar GTFS de Vitrasa
         run: |
-          curl -fsSL --retry 4 --retry-delay 20 -A "BusGalicia-datos/1.0" \
+          curl -fsSL --retry 4 --retry-delay 20 -A "Paradina-datos/1.0" \
             -o gtfs.zip "https://datos.vigo.org/data/transporte/gtfs_vigo.zip"
           ls -l gtfs.zip
           echo "HASH=$(sha256sum gtfs.zip | cut -d' ' -f1)" >> "$GITHUB_ENV"
