@@ -10,16 +10,22 @@
   <main>
     <p class="volver"><a href="../">← Paradiña</a></p>
     <h1>Política de privacidad</h1>
-    <p class="fecha">Última actualización: 10 de noviembre de 2026</p>
+    <p class="fecha">Última actualización: 12 de noviembre de 2026</p>
 
-    <p class="resumen"><strong>En resumen:</strong> Paradiña no tiene cuentas de usuario, no guarda
-      tus datos en ningún servidor propio, no vende datos y no usa herramientas de seguimiento ni
-      publicidad. Tu ubicación se usa solo en tu móvil y, cuando hace falta, se envía de forma puntual
-      a los servicios que calculan rutas o muestran el mapa.</p>
+    <p class="resumen"><strong>En resumen:</strong> Paradiña no tiene cuentas de usuario, no te pide
+      nombre, correo ni teléfono, no vende datos y no usa herramientas de analítica ni publicidad.
+      Tus favoritas, trayectos y preferencias se quedan en tu móvil. Tu ubicación se usa solo mientras
+      usas la app y, cuando hace falta, se envía de forma puntual a los servicios que calculan los
+      caminos a pie o muestran el mapa.</p>
 
-    <h2>1. Qué datos usa la app</h2>
+    <h2>1. Responsable</h2>
+    <p>El responsable de la app y de esta política es <strong>Ángel Martínez Sarabia</strong>,
+      desarrollador independiente. Contacto: <a href="mailto:paradinhagalicia@gmail.com">paradinhagalicia@gmail.com</a>.</p>
+
+    <h2>2. Qué datos usa la app</h2>
     <h3>Ubicación</h3>
-    <p>Si das permiso, la app usa tu ubicación <strong>solo mientras la estás usando</strong> para:</p>
+    <p>Si das permiso, la app usa tu ubicación <strong>solo mientras la estás usando</strong> (nunca en
+      segundo plano) para:</p>
     <ul>
       <li>enseñarte las paradas que tienes cerca y tu posición en el mapa;</li>
       <li>calcular rutas desde donde estás.</li>
@@ -34,43 +40,71 @@
       no está en la app (por ejemplo, un comercio) o una calle con número de portal, el texto de la
       búsqueda se envía a los servicios de búsqueda indicados más abajo.</p>
 
-    <h3>Datos guardados en tu móvil</h3>
-    <p>Tus paradas favoritas, las direcciones de Casa y Trabajo que guardes, tus preferencias y los
-      horarios descargados se guardan <strong>solo en tu móvil</strong>. No se envían a ningún sitio.
-      Se borran al desinstalar la app.</p>
+    <h3>Tiempos de llegada</h3>
+    <p>Cuando consultas una parada, la app pide los tiempos de llegada a nuestro servidor
+      (alojado en Cloudflare), que a su vez los pide al Concello de Vigo y los guarda unos segundos para
+      repartirlos a todos los usuarios. El servidor solo recibe <strong>el número de la parada</strong>
+      (y, como toda conexión, la dirección IP). No guarda quién consulta qué ni crea perfiles.</p>
 
-    <h2>2. Servicios externos que usa la app</h2>
+    <h3>Avisos de «Voy a hacerla»</h3>
+    <p>Los avisos de que tu bus está a punto de llegar son <strong>notificaciones locales</strong>: las
+      programa tu propio móvil. No se envía ningún dato a un servidor para mandarlas. Puedes desactivarlas
+      en los ajustes del móvil.</p>
+
+    <h3>Datos guardados en tu móvil</h3>
+    <p>Tus paradas favoritas, tus trayectos, las direcciones de Casa y Trabajo que guardes, tu viaje
+      activo, tus preferencias y los horarios descargados se guardan <strong>solo en tu móvil</strong>.
+      No se envían a ningún sitio. Se borran al desinstalar la app.</p>
+
+    <h3>Paradiña PRO (compras)</h3>
+    <p>Si compras Paradiña PRO, el pago lo gestiona por completo <strong>Google Play</strong> (Android) o
+      el <strong>App Store</strong> de Apple (iPhone): nosotros nunca vemos tu tarjeta ni tus datos de pago.
+      Para saber si tienes PRO en cada dispositivo usamos <strong>RevenueCat</strong>, que recibe un
+      identificador anónimo generado por la app y la información de la compra (qué plan, cuándo y si sigue
+      activo), pero no tu nombre ni tu correo.</p>
+
+    <h2>3. Servicios externos que usa la app</h2>
     <p>Para funcionar, la app se conecta a estos servicios. Como en cualquier conexión a internet, reciben
       la dirección IP de tu dispositivo y los datos necesarios para responder:</p>
     <table>
       <tr><th>Servicio</th><th>Para qué</th><th>Qué recibe</th></tr>
-      <tr><td>Concello de Vigo (datos.vigo.org)</td><td>Tiempos de llegada y avisos de transporte</td><td>El número de la parada consultada</td></tr>
+      <tr><td>Servidor de Paradiña (Cloudflare, Inc.)</td><td>Tiempos de llegada, avisos de transporte y configuración de la app</td><td>El número de la parada consultada y el idioma</td></tr>
+      <tr><td>Concello de Vigo (datos.vigo.org)</td><td>Fuente oficial de tiempos de llegada y avisos (a través de nuestro servidor; los avisos también directamente si el servidor no responde)</td><td>El número de la parada (lo envía nuestro servidor, no tu móvil)</td></tr>
       <tr><td>GitHub Pages (GitHub, Inc.)</td><td>Descargar los horarios actualizados</td><td>Solo la descarga del archivo</td></tr>
       <tr><td>OSRM · FOSSGIS e.V. (routing.openstreetmap.de)</td><td>Caminos a pie por las calles</td><td>Coordenadas de inicio y fin de cada tramo a pie</td></tr>
       <tr><td>CartoCiudad · Instituto Geográfico Nacional</td><td>Localizar números de portal</td><td>La calle y el número buscados</td></tr>
       <tr><td>Photon · Komoot</td><td>Buscar comercios y otros sitios</td><td>El texto buscado</td></tr>
       <tr><td>Apple Maps (iPhone) / Google Maps (Android)</td><td>Mostrar el mapa</td><td>La zona del mapa que estás viendo</td></tr>
+      <tr><td>Google Play / App Store y RevenueCat, Inc.</td><td>Compras de Paradiña PRO (solo si compras)</td><td>Un identificador anónimo y los datos de la compra</td></tr>
     </table>
-    <p>Cada uno de estos servicios tiene su propia política de privacidad.</p>
+    <p>Cada uno de estos servicios tiene su propia política de privacidad. Algunos (Cloudflare,
+      GitHub, Google, Apple, RevenueCat) pueden tratar datos fuera de la Unión Europea con las garantías
+      que exige el RGPD.</p>
 
-    <h2>3. Lo que la app no hace</h2>
+    <h2>4. Lo que la app no hace</h2>
     <ul>
       <li>No pide registrarse ni datos personales como nombre, correo o teléfono.</li>
-      <li>No usa analítica, seguimiento ni publicidad personalizada.</li>
+      <li>No usa tu ubicación en segundo plano.</li>
+      <li>No usa analítica, seguimiento ni publicidad.</li>
       <li>No vende ni cede datos a terceros.</li>
     </ul>
 
-    <h2>4. Cambios en esta política</h2>
-    <p>Si en el futuro la app incorpora nuevas funciones que usen datos de otra forma (por ejemplo,
-      publicidad o una suscripción de pago), esta política se actualizará antes y se indicará la fecha
-      del cambio arriba.</p>
+    <h2>5. Tus derechos</h2>
+    <p>Como la app no guarda datos personales tuyos en ningún servidor propio, normalmente no hay nada
+      que consultar ni borrar: basta con desinstalar la app para borrar todo lo guardado en tu móvil.
+      Aun así, puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación y
+      portabilidad escribiendo al correo de contacto, y reclamar ante la
+      <a href="https://www.aepd.es">Agencia Española de Protección de Datos</a>.</p>
 
-    <h2>5. Contacto</h2>
-    <p>Para cualquier duda sobre privacidad puedes escribir a través de
-      <a href="https://github.com/angelmrtinezz/bus-galicia-datos/issues">la página de incidencias del proyecto</a>.</p>
+    <h2>6. Menores</h2>
+    <p>La app no está dirigida especialmente a menores y no recoge a sabiendas datos de menores de 14 años.</p>
+
+    <h2>7. Cambios en esta política</h2>
+    <p>Si la app incorpora nuevas funciones que usen datos de otra forma (por ejemplo, publicidad),
+      esta política se actualizará antes y se indicará la fecha del cambio arriba.</p>
 
     <p class="nota">Paradiña es una aplicación independiente. No es una aplicación oficial de Vitrasa ni
-      del Concello de Vigo.</p>
+      del Concello de Vigo. Datos de transporte: Concello de Vigo (datos.vigo.org).</p>
   </main>
 </body>
 </html>
