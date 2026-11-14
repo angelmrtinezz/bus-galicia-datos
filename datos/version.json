@@ -1,17 +1,17 @@
 {
   "formato": 1,
-  "generado": "2026-11-10T18:32:41.063Z",
-  "hashGtfs": "a57559b09908c44ea6966cde24dc708262071b742e237793e97c5c10910efe90",
-  "desde": "20261110",
-  "hasta": "20261116",
+  "generado": "2026-11-14T04:57:53.450Z",
+  "hashGtfs": "310388fde901b971451e8b27ef4113170dedbcc8c3d3c85bf0c21b12d7302b88",
+  "desde": "20261114",
+  "hasta": "20261120",
   "archivos": {
     "horarios": {
       "nombre": "horarios.json",
-      "bytes": 699439
+      "bytes": 580786
     },
     "formas": {
       "nombre": "formas.json",
-      "bytes": 309597
+      "bytes": 303204
     }
   },
   "fuente": "GTFS de Vitrasa · Concello de Vigo (Open Data Commons Attribution License)"
