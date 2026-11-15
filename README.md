@@ -17,3 +17,8 @@ Datos de origen: **GTFS de Vitrasa. Autobús público urbano**, publicado por el
 **Concello de Vigo** en su portal de datos abiertos (https://datos.vigo.org) bajo la
 **Open Data Commons Attribution License (ODC-BY)**. Estos archivos son una transformación
 (cambio de formato y simplificación de trazados) de esos datos.
+
+## Calles y sitios (OpenStreetMap)
+
+[`datos/osm/lugares.json`](datos/osm/lugares.json): calles y sitios de Vigo para el buscador de la app.
+**© colaboradores de OpenStreetMap**, licencia **ODbL 1.0** (ver [`datos/osm/LICENCIA.md`](datos/osm/LICENCIA.md)).
