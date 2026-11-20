@@ -1,5 +1,5 @@
 {
- "comprobado": "2026-11-20T18:22:54.007Z",
+ "comprobado": "2026-11-20T19:16:42.765Z",
  "desvios": [
   {
    "a": 4045,
@@ -80,12 +80,12 @@
     "4A"
    ],
    "dib": [
-    "5B",
     "15B",
     "9B"
    ],
    "sin": [
-    "17"
+    "17",
+    "5B"
    ],
    "par": [
     14121,
@@ -171,7 +171,8 @@
   "Aviso 4039, línea 16 → HISPANIDAD - COIA: sin dibujar (pasa por «Rúa de Pablo Iglesias», cortada, y el aviso no dice por dónde va viniendo de su calle).",
   "Aviso 4039 «REAPERTURA PARCIAL AL TRÁFICO EN PABLO IGLESIAS»: cambiadas —; sin poder comprobar 16; paradas anuladas —.",
   "Aviso 4033, línea 17: deshecho por el tiempo real (el tiempo real da buses de la 17 en la parada anulada 3230).",
-  "Aviso 4033 «DESVÍOS NADAL 2026 / 2027»: cambiadas 5B, 15B, 9B; sin poder comprobar 17; paradas anuladas 14121, 20198, 6620, 20193, 3230, 5530.",
+  "Aviso 4033, línea 5B: deshecho por el tiempo real (el tiempo real da buses de la 5B en la parada anulada 5530).",
+  "Aviso 4033 «DESVÍOS NADAL 2026 / 2027»: cambiadas 15B, 9B; sin poder comprobar 17, 5B; paradas anuladas 14121, 20198, 6620, 20193, 3230, 5530.",
   "Aviso 3776: no encuentro la parada anulada «Estrada de Camposancos 498».",
   "Aviso 3776: no encuentro la parada anulada «Estrada de Camposancos Cruce Camiño da Estea».",
   "Aviso 3776, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la parada final no está en el recorrido).",
