@@ -12,7 +12,7 @@
 //   las paradas y trazados correctos.
 
 import { codificar, isoAClave, metros, simplificar, sinAcentos } from './comun.mjs';
-import { anularParadas, aTrabajo, casarParadas, desviar, empezarEn, encaje, terminarEn } from './desviar.mjs';
+import { anularParadas, aTrabajo, casarParadas, desviar, empezarEn, encaje, pasaPorCortada, terminarEn } from './desviar.mjs';
 
 const TRANSBORDO_MAX_M = 400;
 const VELOCIDAD_PIE = 1.2;
@@ -77,7 +77,8 @@ export async function aplicarDesvios({ horarios, formas, avisos, extracciones, p
   const primera = fechasVentana[0], ultima = fechasVentana[fechasVentana.length - 1];
 
   for (const aviso of avisos) {
-    const ext = extracciones[aviso.id]?.datos;
+    // Una lectura de una versión vieja del aviso no vale: podría dibujar un desvío que ya no es.
+    const ext = extracciones[aviso.id]?.desactualizada ? undefined : extracciones[aviso.id]?.datos;
     const lineasAviso = lineasDeAviso(aviso.lineas_afectadas);
     const entrada = {
       a: aviso.id,
@@ -91,7 +92,7 @@ export async function aplicarDesvios({ horarios, formas, avisos, extracciones, p
     };
     if (!ext || !ext.afecta_recorrido) {
       if (ext && !ext.afecta_recorrido) continue; // informativo (servicio especial, lanzaderas…)
-      informe.push(`Aviso ${aviso.id} «${aviso.titulo}»: sin leer (solo se marcan sus líneas).`);
+      informe.push(`Aviso ${aviso.id} «${aviso.titulo}»: ${extracciones[aviso.id]?.desactualizada ? 'ha cambiado y está sin volver a leer' : 'sin leer'} (solo se marcan sus líneas).`);
       if (lineasAviso.length) resumen.push({ ...entrada, sin: lineasAviso });
       continue;
     }
@@ -150,13 +151,20 @@ export async function aplicarDesvios({ horarios, formas, avisos, extracciones, p
       // Desvíos por otras calles. Si varios tramos son del mismo corte (misma calle y sentido),
       // solo vale el que encaja con por dónde viene este patrón (la calle de salida más cercana).
       const grupos = new Map();
+      const cortesQueToca = new Set();
       for (const tramo of ext.tramos ?? []) {
         if (!enAlcance(tramo.lineas, tramo.lineas_excluidas)(patron.l)) continue;
+        if (pasaPorCortada(t, tramo)) cortesQueToca.add(`${tramo.calle_cortada}|${tramo.hacia ?? ''}`);
         const d = encaje(t, tramo);
         if (d === null) continue;
         const clave = `${tramo.calle_cortada}|${tramo.hacia ?? ''}`;
         const g = grupos.get(clave);
         if (!g || d < g.d) grupos.set(clave, { d, tramo });
+      }
+      // Pasa por una calle cortada pero ningún tramo del aviso dice por dónde va (viene de otra
+      // calle): no se puede dibujar sin inventar.
+      for (const clave of cortesQueToca) {
+        if (!grupos.has(clave)) fallo = `pasa por «${clave.split('|')[0]}», cortada, y el aviso no dice por dónde va viniendo de su calle`;
       }
       for (const { tramo } of grupos.values()) {
         try {

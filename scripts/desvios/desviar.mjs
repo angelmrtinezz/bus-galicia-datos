@@ -193,6 +193,16 @@ export function encaje(t, tramo) {
   }
   return mejor;
 }
+/** ¿Va este patrón POR la calle cortada en el sentido cortado (sin mirar de dónde viene)? */
+export function pasaPorCortada(t, tramo) {
+  const cortada = buscarCalle(tramo.calle_cortada, null);
+  if (!cortada) return false;
+  return tramosPorCalle(t, cortada).some(([ini, fin]) => {
+    if (!tramo.hacia) return true;
+    const hacia = buscarCalle(tramo.hacia, t.pts[fin], 2500);
+    return Boolean(hacia) && aPolilineas(t.pts[fin], hacia.lineas) < aPolilineas(t.pts[ini], hacia.lineas) - 15;
+  });
+}
 /** ¿Pasa la ruta dos veces por el mismo punto (separadas por más de 150 m de recorrido)? */
 function tieneVuelta(pts) {
   const acum = acumulado(pts);

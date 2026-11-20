@@ -2,7 +2,8 @@
 // recorrido en un formato que el robot entiende (ver ESQUEMA). Cada aviso se lee UNA vez: el
 // resultado se guarda en datos/desvios/extracciones.json con una huella del texto y del PDF, y solo
 // se vuelve a leer si Vitrasa lo cambia. Sin clave de la API (ANTHROPIC_API_KEY) no se lee nada
-// nuevo: se usa lo guardado y los avisos nuevos solo se marcan en la app.
+// nuevo: se usa lo guardado y los avisos nuevos o cambiados solo se marcan en la app (la tarea
+// local de Claude Code los lee con scripts/desvios/pendientes.mjs y guardar-lectura.mjs).
 
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -43,7 +44,7 @@ export async function enlacesPdf() {
   return enlaces;
 }
 
-async function bajarPdf(url) {
+export async function bajarPdf(url) {
   const r = await fetch(url, { headers: { 'User-Agent': AGENTE }, signal: AbortSignal.timeout(60_000) });
   if (!r.ok) throw new Error(`PDF: HTTP ${r.status}`);
   const b = Buffer.from(await r.arrayBuffer());
@@ -51,7 +52,7 @@ async function bajarPdf(url) {
   return b;
 }
 
-const textoPlano = (html) =>
+export const textoPlano = (html) =>
   String(html ?? '')
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<[^>]+>/g, ' ')
@@ -97,7 +98,7 @@ export const ESQUEMA = objeto({
   ocasional: textoONulo,
 });
 
-const INSTRUCCIONES = `Eres el lector de avisos de la app de autobuses Paradiña (Vigo, Vitrasa). Recibes un aviso oficial (texto y, si lo hay, su PDF, en castellano o gallego) y devuelves SOLO lo que dice, en el formato pedido, para que un programa cambie el recorrido de las líneas en el mapa. Si dudas de algo, déjalo fuera: es mejor no dibujar un desvío que dibujar uno falso.
+export const INSTRUCCIONES = `Eres el lector de avisos de la app de autobuses Paradiña (Vigo, Vitrasa). Recibes un aviso oficial (texto y, si lo hay, su PDF, en castellano o gallego) y devuelves SOLO lo que dice, en el formato pedido, para que un programa cambie el recorrido de las líneas en el mapa. Si dudas de algo, déjalo fuera: es mejor no dibujar un desvío que dibujar uno falso.
 
 Reglas:
 - afecta_recorrido: true solo si el aviso cambia por dónde van las líneas o qué paradas usan (desvíos, cortes de calle, paradas anuladas o provisionales, líneas que empiezan o acaban en otro sitio). Servicios especiales, lanzaderas, horarios, tarjetas, etc.: false (y el resto vacío).
@@ -114,7 +115,7 @@ Reglas:
 - Nombres de líneas sin la L delante («L5A» → "5A"; «A», «C1», «C3i», «H1», «N4» tal cual).`;
 
 /** Huella del aviso: si cambia el texto, las fechas, las líneas o el PDF, se vuelve a leer. */
-function huella(aviso, pdfs) {
+export function huella(aviso, pdfs) {
   const h = createHash('sha256');
   h.update(JSON.stringify([aviso.titulo, aviso.resumen, aviso.fecha_inicio, aviso.fecha_fin, aviso.lineas_afectadas, aviso.paradas_afectadas]));
   for (const p of pdfs) h.update(p);
@@ -148,7 +149,10 @@ export async function extraerAvisos(avisos, { hoy = new Date().toISOString().sli
       }
     }
     const hu = huella(aviso, pdfs);
-    if (guardadas[aviso.id]?.huella === hu) {
+    // Si el PDF no se ha podido bajar ahora (fallo de red), la huella saldría distinta sin que el
+    // aviso haya cambiado: se mantiene lo leído.
+    const pdfCaido = urls.length > 0 && pdfs.length === 0;
+    if (guardadas[aviso.id] && (guardadas[aviso.id].huella === hu || pdfCaido)) {
       salida[aviso.id] = guardadas[aviso.id];
       continue;
     }
@@ -174,15 +178,8 @@ async function preguntar(cliente, aviso, pdfs) {
   for (const p of pdfs) {
     contenido.push({ type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: p.toString('base64') } });
   }
-  contenido.push({
-    type: 'text',
-    text:
-      `Aviso nº ${aviso.id}\nTítulo: ${aviso.titulo}\nFechas del aviso: ${aviso.fecha_inicio} → ${aviso.fecha_fin}\n` +
-      `Líneas afectadas (según el aviso): ${aviso.lineas_afectadas ?? 'no indicadas'}\n` +
-      `Paradas afectadas (según el aviso): ${aviso.paradas_afectadas ?? 'no indicadas'}\n\n` +
-      `Texto del aviso:\n${textoPlano(aviso.resumen)}\n\n` +
-      (pdfs.length ? 'El PDF adjunto tiene el detalle.' : 'No hay PDF: usa solo el texto.'),
-  });
+  contenido.push({ type: 'text', text: textoDelAviso(aviso, pdfs.length > 0) });
+
   const r = await cliente.beta.messages.create({
     model: MODELO,
     max_tokens: 16000,
@@ -198,4 +195,24 @@ async function preguntar(cliente, aviso, pdfs) {
   const datos = JSON.parse(txt);
   if (typeof datos.afecta_recorrido !== 'boolean' || !Array.isArray(datos.tramos)) throw new Error('respuesta sin el formato pedido');
   return datos;
+}
+
+/** Lo que se le da a leer a la IA de cada aviso (igual en GitHub y en la tarea local). */
+export function textoDelAviso(aviso, conPdf) {
+  return (
+    `Aviso nº ${aviso.id}
+Título: ${aviso.titulo}
+Fechas del aviso: ${aviso.fecha_inicio} → ${aviso.fecha_fin}
+` +
+    `Líneas afectadas (según el aviso): ${aviso.lineas_afectadas ?? 'no indicadas'}
+` +
+    `Paradas afectadas (según el aviso): ${aviso.paradas_afectadas ?? 'no indicadas'}
+
+` +
+    `Texto del aviso:
+${textoPlano(aviso.resumen)}
+
+` +
+    (conPdf ? 'El PDF adjunto tiene el detalle.' : 'No hay PDF: usa solo el texto.')
+  );
 }

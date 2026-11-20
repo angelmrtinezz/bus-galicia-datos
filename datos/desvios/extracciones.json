@@ -1,8 +1,134 @@
 {
+ "3737": {
+  "huella": "bbfb933cac1d1495008564820dc377ae",
+  "fecha": "2026-11-20T18:16:49.067Z",
+  "modelo": "claude-code (tarea local)",
+  "pdf": "https://axenda-files.vigo.org/media/3737/084PARADAANULADAGARCIABARBON%2C43_GAL__es.pdf",
+  "datos": {
+   "afecta_recorrido": true,
+   "resumen": "Parada de García Barbón 43 (nº 14245) anulada por obras.",
+   "vigencia": {
+    "desde": "2026-06-29",
+    "hasta": "2027-05-16",
+    "hora_inicio": null,
+    "hora_fin": null
+   },
+   "tramos": [],
+   "recortes": [],
+   "paradas_anuladas": [
+    {
+     "calle": "Avenida de García Barbón",
+     "numero": "43",
+     "numero_parada": "14245",
+     "lineas": []
+    }
+   ],
+   "ocasional": null
+  }
+ },
+ "3776": {
+  "huella": "e986bce3afbc69e7f8044c3aaa19850c",
+  "fecha": "2026-11-20T18:16:53.470Z",
+  "modelo": "claude-code (tarea local)",
+  "pdf": "https://axenda-files.vigo.org/media/3776/102CORTETRAFICOCESAREOVAZQUEZ_GAL__es.pdf",
+  "datos": {
+   "afecta_recorrido": true,
+   "resumen": "Cesáreo Vázquez cortada: la 11 acaba y empieza en Ricardo Mella 289 (Rotonda Mide); la 12A sigue por Ricardo Mella y Baixada á Praia.",
+   "vigencia": {
+    "desde": "2026-07-27",
+    "hasta": "2027-07-31",
+    "hora_inicio": null,
+    "hora_fin": null
+   },
+   "tramos": [
+    {
+     "lineas": [
+      "12A"
+     ],
+     "lineas_excluidas": [],
+     "calle_cortada": "Rúa de Cesáreo Vázquez",
+     "hacia": null,
+     "desde_calle": "Avenida de Ricardo Mella",
+     "itinerario": [
+      "Avenida de Ricardo Mella",
+      "Baixada á Praia"
+     ],
+     "paradas_provisionales": []
+    }
+   ],
+   "recortes": [
+    {
+     "lineas": [
+      "11"
+     ],
+     "tipo": "termina_en",
+     "parada": {
+      "calle": "Avenida de Ricardo Mella",
+      "numero": "289",
+      "numero_parada": null,
+      "lineas": [
+       "11"
+      ]
+     },
+     "hacia": "San Miguel"
+    },
+    {
+     "lineas": [
+      "11"
+     ],
+     "tipo": "empieza_en",
+     "parada": {
+      "calle": "Avenida de Ricardo Mella",
+      "numero": "289",
+      "numero_parada": null,
+      "lineas": [
+       "11"
+      ]
+     },
+     "hacia": "Cabral"
+    }
+   ],
+   "paradas_anuladas": [
+    {
+     "calle": "Estrada de Camposancos",
+     "numero": "498",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Estrada de Camposancos",
+     "numero": "Cruce Camiño da Estea",
+     "numero_parada": null,
+     "lineas": []
+    }
+   ],
+   "ocasional": "El desvío de la 12A es solo en días laborables. Quedan anuladas todas las paradas de Cesáreo Vázquez excepto la nº 182 y la nº 169."
+  }
+ },
+ "3827": {
+  "huella": "67c68e16978eb9a78a48aa3991c94e63",
+  "fecha": "2026-11-20T18:16:46.604Z",
+  "modelo": "claude-code (tarea local)",
+  "pdf": "https://axenda-files.vigo.org/media/3827/114LANZADERASFUTBOL_es.pdf",
+  "datos": {
+   "afecta_recorrido": false,
+   "resumen": "Lanzaderas especiales de fútbol (Río, Marcador, Gol); no cambian las líneas regulares.",
+   "vigencia": {
+    "desde": "2026-08-12",
+    "hasta": "2027-03-14",
+    "hora_inicio": null,
+    "hora_fin": null
+   },
+   "tramos": [],
+   "recortes": [],
+   "paradas_anuladas": [],
+   "ocasional": null
+  }
+ },
  "4033": {
-  "huella": "manual",
-  "fecha": "2026-11-20T16:01:23.630Z",
-  "modelo": "manual (revisado a mano)",
+  "huella": "7fb9568165a7d38355089d798e5fa24c",
+  "fecha": "2026-11-20T18:15:36.496Z",
+  "modelo": "claude-code (tarea local)",
   "pdf": "https://axenda-files.vigo.org/media/4033/151DESVIOSNADAL2026-2027_GAL_V1_es.pdf",
   "datos": {
    "afecta_recorrido": true,
@@ -32,12 +158,14 @@
       {
        "calle": "Rúa do Marqués de Valladares",
        "numero": "19",
-       "lineas": []
+       "lineas": [],
+       "numero_parada": null
       },
       {
        "calle": "Rúa Colón",
        "numero": "12",
-       "lineas": []
+       "lineas": [],
+       "numero_parada": null
       }
      ]
     },
@@ -113,7 +241,9 @@
      "tipo": "empieza_en",
      "parada": {
       "calle": "Rúa de Urzáiz",
-      "numero": "Príncipe"
+      "numero": "Príncipe",
+      "numero_parada": null,
+      "lineas": []
      },
      "hacia": "Candeán"
     }
@@ -160,7 +290,172 @@
     }
    ],
    "ocasional": "En días de mucha afluencia se anulan también las paradas de Colón 12 y 26."
-  },
-  "desactualizada": true
+  }
+ },
+ "4039": {
+  "huella": "6917e4c0bd8c1d26fd7480afb2d7d1be",
+  "fecha": "2026-11-20T18:16:51.907Z",
+  "modelo": "claude-code (tarea local)",
+  "pdf": "https://axenda-files.vigo.org/media/4039/153REAPERTURAPARCIALTRAFICOPABLOIGLESIAS_GAL__es.pdf",
+  "datos": {
+   "afecta_recorrido": true,
+   "resumen": "La 16 vuelve por Pablo Iglesias dirección Coia; dirección FF.CC. Guixar sigue desviada por Avenida da Florida y Manuel de Castro.",
+   "vigencia": {
+    "desde": "2026-11-16",
+    "hasta": "2027-12-31",
+    "hora_inicio": null,
+    "hora_fin": null
+   },
+   "tramos": [
+    {
+     "lineas": [
+      "16"
+     ],
+     "lineas_excluidas": [],
+     "calle_cortada": "Rúa de Pablo Iglesias",
+     "hacia": null,
+     "desde_calle": "Rúa do Padre Seixas",
+     "itinerario": [
+      "Avenida da Florida",
+      "Rúa de Manuel de Castro"
+     ],
+     "paradas_provisionales": []
+    }
+   ],
+   "recortes": [],
+   "paradas_anuladas": [
+    {
+     "calle": "Rúa de Pablo Iglesias",
+     "numero": "Río",
+     "numero_parada": null,
+     "lineas": [
+      "16"
+     ]
+    },
+    {
+     "calle": "Rúa de Pablo Iglesias",
+     "numero": "Colexio",
+     "numero_parada": null,
+     "lineas": [
+      "16"
+     ]
+    }
+   ],
+   "ocasional": "Solo en dirección FF.CC. Guixar; en dirección Coia la 16 va por Pablo Iglesias."
+  }
+ },
+ "4043": {
+  "huella": "3e67501649db1b20c938ccba05605c4a",
+  "fecha": "2026-11-20T18:16:36.234Z",
+  "modelo": "claude-code (tarea local)",
+  "pdf": "https://axenda-files.vigo.org/media/4043/152SERVIZOESPECIALBUSNADAL2026-2027_GAL__es.pdf",
+  "datos": {
+   "afecta_recorrido": false,
+   "resumen": "Bus turístico de Navidad (Nadal Bus); no cambia el recorrido de las líneas.",
+   "vigencia": {
+    "desde": "2026-11-20",
+    "hasta": "2027-01-10",
+    "hora_inicio": null,
+    "hora_fin": null
+   },
+   "tramos": [],
+   "recortes": [],
+   "paradas_anuladas": [],
+   "ocasional": null
+  }
+ },
+ "4045": {
+  "huella": "cab022b6f7b5ceba1fab11fb6cdf061a",
+  "fecha": "2026-11-20T18:16:50.664Z",
+  "modelo": "claude-code (tarea local)",
+  "pdf": "https://axenda-files.vigo.org/media/4045/154CORTETRAFICOTORRECEDEIRA_GAL__es.pdf",
+  "datos": {
+   "afecta_recorrido": true,
+   "resumen": "Torrecedeira cortada en los dos sentidos entre Xoán XXIII y Juan Ramón Jiménez el domingo 22 de 8:00 a 20:00.",
+   "vigencia": {
+    "desde": "2026-11-22",
+    "hasta": "2026-11-22",
+    "hora_inicio": "08:00",
+    "hora_fin": "20:00"
+   },
+   "tramos": [
+    {
+     "lineas": [],
+     "lineas_excluidas": [],
+     "calle_cortada": "Rúa do Conde de Torrecedeira",
+     "hacia": "Rúa de Cánovas del Castillo",
+     "desde_calle": "Praza de Xoán XXIII",
+     "itinerario": [
+      "Rúa da Paz",
+      "Avenida de Beiramar"
+     ],
+     "paradas_provisionales": []
+    },
+    {
+     "lineas": [],
+     "lineas_excluidas": [],
+     "calle_cortada": "Rúa do Conde de Torrecedeira",
+     "hacia": "Praza de Eugenio Fadrique",
+     "desde_calle": "Rúa de Cánovas del Castillo",
+     "itinerario": [
+      "Avenida de Beiramar",
+      "Rúa da Coruña"
+     ],
+     "paradas_provisionales": []
+    }
+   ],
+   "recortes": [],
+   "paradas_anuladas": [
+    {
+     "calle": "Rúa do Conde de Torrecedeira",
+     "numero": "16",
+     "numero_parada": "14224",
+     "lineas": []
+    },
+    {
+     "calle": "Rúa do Conde de Torrecedeira",
+     "numero": "50",
+     "numero_parada": "14225",
+     "lineas": []
+    },
+    {
+     "calle": "Rúa do Conde de Torrecedeira",
+     "numero": "70",
+     "numero_parada": "14226",
+     "lineas": []
+    },
+    {
+     "calle": "Rúa do Conde de Torrecedeira",
+     "numero": "86",
+     "numero_parada": "14227",
+     "lineas": []
+    },
+    {
+     "calle": "Rúa do Conde de Torrecedeira",
+     "numero": "81",
+     "numero_parada": "8480",
+     "lineas": []
+    },
+    {
+     "calle": "Rúa do Conde de Torrecedeira",
+     "numero": "Parque",
+     "numero_parada": "8450",
+     "lineas": []
+    },
+    {
+     "calle": "Rúa do Conde de Torrecedeira",
+     "numero": "21",
+     "numero_parada": "8470",
+     "lineas": []
+    },
+    {
+     "calle": "Rúa do Gaiteiro Ricardo Portela",
+     "numero": "fronte Pavillón",
+     "numero_parada": "14173",
+     "lineas": []
+    }
+   ],
+   "ocasional": null
+  }
  }
 }

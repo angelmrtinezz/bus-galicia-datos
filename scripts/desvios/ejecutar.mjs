@@ -34,6 +34,13 @@ try {
   const avisos = await descargarAvisos();
   const extracciones = await extraerAvisos(avisos);
   extraccionesActuales = extracciones;
+  // Avisos activos sin leer (o cambiados desde que se leyeron): el workflow abre una incidencia en
+  // GitHub para que llegue un correo y la tarea local los lea.
+  const hoyISO = new Date().toISOString().slice(0, 10);
+  const sinLeer = avisos
+    .filter((a) => (!a.fecha_fin || a.fecha_fin >= hoyISO) && (!extracciones[a.id] || extracciones[a.id].desactualizada))
+    .map((a) => `- ${a.id} «${a.titulo}»${extracciones[a.id] ? ' (ha cambiado)' : ''}`);
+  writeFileSync(join(carpeta, 'sin-leer.txt'), sinLeer.join('\n'));
   const paradasConcello = await (
     await fetch('https://datos.vigo.org/data/transporte/paradas.json', { headers: { 'User-Agent': AGENTE } })
   ).json();

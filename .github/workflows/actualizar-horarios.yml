@@ -19,6 +19,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: actualizar-horarios
@@ -73,4 +74,26 @@ jobs:
           else
             git commit -m "Horarios $(jq -r '.desde + " → " + .hasta' datos/version.json) · desvíos $(jq -r '.desvios' datos/version.json)"
             git push
+          fi
+
+      # Si hay avisos sin leer, una incidencia abierta (GitHub manda un correo al abrirla); se cierra
+      # sola cuando ya están todos leídos (por la IA con la clave, o por la tarea local).
+      - name: Avisar de avisos sin leer
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITULO="Avisos de Vitrasa sin leer"
+          ABIERTA=$(gh issue list --state open --search "in:title \"$TITULO\"" --json number --jq '.[0].number // empty')
+          if [ -s compilado/sin-leer.txt ]; then
+            CUERPO=$(printf 'Hay avisos activos que todavía no se han leído, así que la app solo marca sus líneas como «desvío sin dibujar»:\n\n%s\n\nPara leerlos: abre Claude Code en la carpeta bus-galicia-datos y dile «lee los avisos pendientes», o espera a la tarea programada.' "$(cat compilado/sin-leer.txt)")
+            if [ -z "$ABIERTA" ]; then
+              gh issue create --title "$TITULO" --body "$CUERPO"
+            elif [ "$(gh issue view "$ABIERTA" --json body --jq .body)" != "$CUERPO" ]; then
+              gh issue edit "$ABIERTA" --body "$CUERPO"
+              gh issue comment "$ABIERTA" --body "Ha cambiado la lista de avisos sin leer."
+            fi
+          elif [ -n "$ABIERTA" ]; then
+            gh issue close "$ABIERTA" --comment "Ya están todos leídos."
           fi
