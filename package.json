@@ -1,0 +1,9 @@
+{
+  "name": "bus-galicia-datos",
+  "private": true,
+  "type": "module",
+  "description": "Robot de horarios y desvíos de Vitrasa para la app Paradiña",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.11.0"
+  }
+}

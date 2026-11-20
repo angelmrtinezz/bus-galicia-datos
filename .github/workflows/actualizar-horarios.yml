@@ -1,22 +1,21 @@
-# Robot que mantiene al día los horarios de Vitrasa para la app Paradiña.
+# Robot que mantiene al día los horarios y los DESVÍOS de Vitrasa para la app Paradiña.
 #
-# Cada 3 horas descarga el GTFS oficial del Concello de Vigo. Si ha cambiado, lo compila
-# (horarios.json + formas.json), comprueba que es válido y lo publica en GitHub Pages,
-# de donde lo descarga la app. Si algo falla, no publica nada y la app sigue con lo anterior.
+# Cada 3 horas:
+#  1. descarga el GTFS oficial del Concello de Vigo y lo compila (horarios + trazados);
+#  2. lee los avisos de transporte del Concello y sus PDF de Vitrasa; los nuevos o cambiados los
+#     lee una IA (Claude; secreto ANTHROPIC_API_KEY) y se guardan en datos/desvios/extracciones.json;
+#  3. aplica los desvíos a los horarios y trazados (calles reales de OpenStreetMap, rutas de bus,
+#     comprobación con el tiempo real) — ver scripts/desvios/;
+#  4. si el resultado ha cambiado, lo publica en GitHub Pages, de donde lo descarga la app.
+# Si algo falla, no publica nada (o publica los horarios sin desvíos) y la app sigue funcionando.
 
 name: Actualizar horarios
 
 on:
   schedule:
-    # Cada 3 horas (el Concello publica el GTFS a horas variables, a veces a mediodía).
-    # Si no ha cambiado, el robot termina en segundos sin publicar nada.
+    # Cada 3 horas (el Concello publica el GTFS y los avisos a horas variables).
     - cron: '17 */3 * * *'
   workflow_dispatch:
-    inputs:
-      forzar:
-        description: 'Compilar aunque el GTFS no haya cambiado'
-        type: boolean
-        default: false
 
 permissions:
   contents: write
@@ -28,13 +27,23 @@ concurrency:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Instalar dependencias
+        run: npm ci --no-audit --no-fund
+
+      - name: Renovar calles de OpenStreetMap (una vez por semana)
+        continue-on-error: true
+        run: |
+          EDAD=$(( ( $(date +%s) - $(date -d "$(jq -r '.generado' datos/osm/calles.json)" +%s) ) / 86400 ))
+          echo "calles.json tiene $EDAD días"
+          if [ "$EDAD" -ge 7 ]; then node scripts/desvios/descargar-calles.mjs; fi
 
       - name: Descargar GTFS de Vitrasa
         run: |
@@ -43,27 +52,18 @@ jobs:
           ls -l gtfs.zip
           echo "HASH=$(sha256sum gtfs.zip | cut -d' ' -f1)" >> "$GITHUB_ENV"
 
-      - name: ¿Ha cambiado?
-        id: cambio
-        run: |
-          ANTERIOR=$(jq -r '.hashGtfs // ""' datos/version.json 2>/dev/null || echo "")
-          if [ "$HASH" = "$ANTERIOR" ] && [ "${{ inputs.forzar }}" != "true" ]; then
-            echo "El GTFS no ha cambiado ($HASH). Nada que hacer."
-            echo "seguir=no" >> "$GITHUB_OUTPUT"
-          else
-            echo "GTFS nuevo: $ANTERIOR → $HASH"
-            echo "seguir=si" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Compilar horarios y trazados
-        if: steps.cambio.outputs.seguir == 'si'
         run: |
           unzip -o -q gtfs.zip -d gtfs
-          node scripts/compilar-gtfs.mjs gtfs datos/horarios.json
-          node scripts/escribir-version.mjs "$HASH"
+          mkdir -p compilado
+          node scripts/compilar-gtfs.mjs gtfs compilado/horarios.json
+
+      - name: Leer avisos y aplicar desvíos
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/desvios/ejecutar.mjs compilado "$HASH"
 
       - name: Publicar
-        if: steps.cambio.outputs.seguir == 'si'
         run: |
           git config user.name "bus-galicia-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -71,6 +71,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Sin cambios que publicar."
           else
-            git commit -m "Horarios $(jq -r '.desde + " → " + .hasta' datos/version.json)"
+            git commit -m "Horarios $(jq -r '.desde + " → " + .hasta' datos/version.json) · desvíos $(jq -r '.desvios' datos/version.json)"
             git push
           fi

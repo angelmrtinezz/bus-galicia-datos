@@ -20,3 +20,16 @@ Más información: https://www.openstreetmap.org/copyright
 Formato: `{ "generado": fecha, "l": [[nombre, latitud, longitud, categoría, zona], ...] }`.
 
 Solo esta base de datos está bajo ODbL; el código de la app no forma parte de ella.
+
+# Red de calles de Vigo (OpenStreetMap) · licencia ODbL
+
+[`calles.json`](calles.json) es la red de calles de Vigo que usa el robot de desvíos
+(`scripts/desvios/`) para dibujar por dónde va un autobús cuando un aviso del Concello lo desvía.
+También es una base de datos derivada de **OpenStreetMap** (© colaboradores de OpenStreetMap,
+ODbL 1.0) y se publica bajo la misma licencia.
+
+Se hace con una consulta a Overpass de las vías (`highway`) en el entorno de Vigo; de cada tramo se
+guarda su nombre, si puede pasar un autobús (`access`, `bus`, `psv`, `busway`…), su sentido para
+autobuses (`oneway`, `oneway:bus`, `oneway:psv`) y su geometría. Se renueva cada semana.
+
+Formato: `{ "generado", "nombres": [...], "vias": [[índice de nombre, bus puede (0/1), sentido, servicio, coordenadas codificadas], ...] }`.

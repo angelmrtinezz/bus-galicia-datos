@@ -1,0 +1,67 @@
+{
+  "afecta_recorrido": true,
+  "resumen": "Desvíos por Navidad: Policarpo Sanz cortada al tráfico",
+  "vigencia": { "desde": "2026-11-14", "hasta": "2027-01-10", "hora_inicio": null, "hora_fin": null },
+  "tramos": [
+    {
+      "lineas": [],
+      "lineas_excluidas": ["24", "9B"],
+      "calle_cortada": "Rúa Policarpo Sanz",
+      "hacia": "Rúa Colón",
+      "desde_calle": "Rúa Cánovas del Castillo",
+      "itinerario": ["Rúa de Carral", "Rúa do Marqués de Valladares", "Rúa Colón"],
+      "paradas_provisionales": [
+        { "calle": "Rúa do Marqués de Valladares", "numero": "19", "lineas": [] },
+        { "calle": "Rúa Colón", "numero": "12", "lineas": [] }
+      ]
+    },
+    {
+      "lineas": ["24"],
+      "lineas_excluidas": [],
+      "calle_cortada": "Rúa Policarpo Sanz",
+      "hacia": "Rúa Colón",
+      "desde_calle": "Rúa Areal",
+      "itinerario": ["Rúa Areal", "Rúa Colón"],
+      "paradas_provisionales": []
+    },
+    {
+      "lineas": [],
+      "lineas_excluidas": ["H1"],
+      "calle_cortada": "Rúa Policarpo Sanz",
+      "hacia": "Praza de Compostela",
+      "desde_calle": "Rúa García Barbón",
+      "itinerario": ["Rúa García Barbón", "Rúa de Pontevedra", "Rúa Areal", "Praza de Compostela"],
+      "paradas_provisionales": []
+    },
+    {
+      "lineas": [],
+      "lineas_excluidas": ["5B", "17", "H1"],
+      "calle_cortada": "Rúa Policarpo Sanz",
+      "hacia": "Praza de Compostela",
+      "desde_calle": "Rúa de Urzáiz",
+      "itinerario": ["Rúa República Argentina", "Rúa García Barbón", "Rúa de Pontevedra", "Rúa Areal", "Praza de Compostela"],
+      "paradas_provisionales": []
+    },
+    {
+      "lineas": ["H1"],
+      "lineas_excluidas": [],
+      "calle_cortada": "Rúa Policarpo Sanz",
+      "hacia": "Praza de Compostela",
+      "desde_calle": "Rúa Areal",
+      "itinerario": ["Rúa Areal", "Praza de Compostela"],
+      "paradas_provisionales": []
+    }
+  ],
+  "recortes": [
+    { "lineas": ["9B"], "tipo": "empieza_en", "parada": { "calle": "Rúa de Urzáiz", "numero": "Príncipe" }, "hacia": "Candeán" }
+  ],
+  "paradas_anuladas": [
+    { "calle": "Praza de Compostela", "numero": "2", "numero_parada": null, "lineas": [] },
+    { "calle": "Rúa Policarpo Sanz", "numero": "26", "numero_parada": null, "lineas": [] },
+    { "calle": "Rúa Policarpo Sanz", "numero": "40", "numero_parada": null, "lineas": [] },
+    { "calle": "Rúa Policarpo Sanz", "numero": "25", "numero_parada": null, "lineas": [] },
+    { "calle": "Rúa Colón", "numero": "27", "numero_parada": null, "lineas": [] },
+    { "calle": "Rúa García Barbón", "numero": "18", "numero_parada": null, "lineas": ["5B", "17"] }
+  ],
+  "ocasional": "En días de mucha afluencia se anulan también las paradas de Colón 12 y 26."
+}

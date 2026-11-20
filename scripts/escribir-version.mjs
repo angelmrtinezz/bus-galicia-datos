@@ -1,8 +1,9 @@
 // Escribe datos/version.json a partir de los horarios recién compilados y comprueba que son válidos.
-// Uso: node scripts/escribir-version.mjs <sha256 del GTFS>
+// Uso: node scripts/escribir-version.mjs <sha256 del GTFS> [huella del contenido con desvíos]
 import { readFileSync, statSync, writeFileSync } from 'node:fs';
 
 const hashGtfs = process.argv[2] ?? '';
+const hashContenido = process.argv[3] ?? '';
 const horarios = JSON.parse(readFileSync('datos/horarios.json', 'utf8'));
 const formas = JSON.parse(readFileSync('datos/formas.json', 'utf8'));
 
@@ -26,6 +27,8 @@ const version = {
   formato: 1,
   generado: horarios.generado,
   hashGtfs,
+  hashContenido,
+  desvios: (horarios.desvios ?? []).length,
   desde: fechas[0],
   hasta: fechas[fechas.length - 1],
   archivos: {
