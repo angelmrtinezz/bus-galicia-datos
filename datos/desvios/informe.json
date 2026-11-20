@@ -1,5 +1,5 @@
 {
- "comprobado": "2026-11-20T16:10:29.561Z",
+ "comprobado": "2026-11-20T16:11:59.273Z",
  "desvios": [
   {
    "a": 4043,
@@ -86,11 +86,12 @@
    ],
    "dib": [
     "5B",
-    "17",
     "15B",
     "9B"
    ],
-   "sin": [],
+   "sin": [
+    "17"
+   ],
    "par": [
     14121,
     20198,
@@ -145,7 +146,8 @@
   "Aviso 4043 «SERVICIO ESPECIAL BUS NADAL 2026-2027»: sin leer (solo se marcan sus líneas).",
   "Aviso 4045 «CORTE DE TRÁFICO EN TORRECEDEIRA»: sin leer (solo se marcan sus líneas).",
   "Aviso 4039 «REAPERTURA PARCIAL AL TRÁFICO EN PABLO IGLESIAS»: sin leer (solo se marcan sus líneas).",
-  "Aviso 4033 «DESVÍOS NADAL 2026 / 2027»: cambiadas 5B, 17, 15B, 9B; sin poder comprobar —; paradas anuladas 14121, 20198, 6620, 20193, 3230, 5530.",
+  "Aviso 4033, línea 17: deshecho por el tiempo real (el tiempo real da buses de la 17 en la parada anulada 5530).",
+  "Aviso 4033 «DESVÍOS NADAL 2026 / 2027»: cambiadas 5B, 15B, 9B; sin poder comprobar 17; paradas anuladas 14121, 20198, 6620, 20193, 3230, 5530.",
   "Aviso 3827 «SERVICIO LANZADERAS FÚTBOL»: sin leer (solo se marcan sus líneas).",
   "Aviso 3776 «ACTUALIZACIÓN CORTE TRÁFICO CESÁREO VÁZQUEZ»: sin leer (solo se marcan sus líneas).",
   "Aviso 3737 «PARADA DE LA AVD. GARCÍA BARBÓN, 43 - ANULADA»: sin leer (solo se marcan sus líneas)."

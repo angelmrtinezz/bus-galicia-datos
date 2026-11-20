@@ -28,10 +28,12 @@ mkdirSync('datos/desvios', { recursive: true });
 const horarios = JSON.parse(readFileSync(join(carpeta, 'horarios.json'), 'utf8'));
 const formas = JSON.parse(readFileSync(join(carpeta, 'formas.json'), 'utf8'));
 
+let extraccionesActuales = {};
 let resultado = { horarios, formas: formas, informe: ['Sin desvíos aplicados.'] };
 try {
   const avisos = await descargarAvisos();
   const extracciones = await extraerAvisos(avisos);
+  extraccionesActuales = extracciones;
   const paradasConcello = await (
     await fetch('https://datos.vigo.org/data/transporte/paradas.json', { headers: { 'User-Agent': AGENTE } })
   ).json();
@@ -80,8 +82,14 @@ execFileSync(process.execPath, ['scripts/escribir-version.mjs', hashGtfs, huella
  * líneas que lo contradicen: un bus de esa línea llegando a una parada anulada para ella.
  * Sin datos (de noche, sin buses) no se contradice nada.
  */
-async function comprobarConTiempoReal({ lineas, paradas, anuladas }) {
-  const malas = new Map();
+async function comprobarConTiempoReal({ aviso, lineas, anuladas }) {
+  // Lo que el tiempo real ya contradijo antes se recuerda mientras el aviso no cambie
+  // (si no, la línea cambiaría de una vez a otra según hubiera buses o no en ese momento).
+  const RUTA = 'datos/desvios/contradicciones.json';
+  const guardadas = existsSync(RUTA) ? JSON.parse(readFileSync(RUTA, 'utf8')) : {};
+  const huellaAviso = extraccionesActuales[aviso.id]?.huella ?? '';
+  const previas = guardadas[aviso.id]?.huella === huellaAviso ? guardadas[aviso.id].lineas : {};
+  const malas = new Map(Object.entries(previas).filter(([l]) => lineas.includes(l)));
   const consultar = async (num) => {
     try {
       const r = await fetch(`${SERVIDOR}/v1/parada/${num}`, { headers: { 'User-Agent': AGENTE }, signal: AbortSignal.timeout(15_000) });
@@ -96,13 +104,17 @@ async function comprobarConTiempoReal({ lineas, paradas, anuladas }) {
       const datos = await consultar(num);
       for (const l of datos?.lineas ?? []) {
         const linea = lineas.find((x) => x.toUpperCase() === String(l.linea).toUpperCase());
-        if (!linea || !a.deLinea(linea)) continue;
+        if (!linea || !a.deLinea(linea) || malas.has(linea)) continue;
         if ((l.llegadas ?? []).some((ll) => ll.minutos <= 15)) {
           malas.set(linea, `el tiempo real da buses de la ${linea} en la parada anulada ${num}`);
         }
       }
       await new Promise((ok) => setTimeout(ok, 300));
     }
+  }
+  if (malas.size) {
+    guardadas[aviso.id] = { huella: huellaAviso, lineas: Object.fromEntries(malas) };
+    writeFileSync(RUTA, JSON.stringify(guardadas, null, 1) + '\n');
   }
   return [...malas];
 }
