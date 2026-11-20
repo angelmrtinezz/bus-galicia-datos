@@ -1,24 +1,10 @@
 {
- "comprobado": "2026-11-20T16:11:59.273Z",
+ "comprobado": "2026-11-20T18:22:54.007Z",
  "desvios": [
-  {
-   "a": 4043,
-   "t": "SERVICIO ESPECIAL BUS NADAL 2026-2027",
-   "desde": "2026-11-20",
-   "hasta": "2027-01-10",
-   "l": [
-    "TUR"
-   ],
-   "dib": [],
-   "sin": [
-    "TUR"
-   ],
-   "par": []
-  },
   {
    "a": 4045,
    "t": "CORTE DE TRÁFICO EN TORRECEDEIRA",
-   "desde": "2026-11-18",
+   "desde": "2026-11-22",
    "hasta": "2026-11-22",
    "l": [
     "C1",
@@ -32,14 +18,23 @@
    "dib": [],
    "sin": [
     "C1",
-    "C3i",
-    "11",
-    "A",
     "5A",
-    "15C",
-    "C3d"
+    "C3d",
+    "C3i",
+    "A",
+    "11",
+    "15C"
    ],
-   "par": []
+   "par": [
+    14224,
+    14225,
+    14226,
+    14227,
+    8480,
+    8450,
+    8470,
+    14173
+   ]
   },
   {
    "a": 4039,
@@ -104,7 +99,7 @@
   {
    "a": 3776,
    "t": "ACTUALIZACIÓN CORTE TRÁFICO CESÁREO VÁZQUEZ",
-   "desde": "2026-07-22",
+   "desde": "2026-07-27",
    "hasta": "2027-07-31",
    "l": [
     "12A",
@@ -112,15 +107,15 @@
    ],
    "dib": [],
    "sin": [
-    "12A",
-    "11"
+    "11",
+    "12A"
    ],
    "par": []
   },
   {
    "a": 3737,
    "t": "PARADA DE LA AVD. GARCÍA BARBÓN, 43 - ANULADA",
-   "desde": "2026-06-26",
+   "desde": "2026-06-29",
    "hasta": "2027-05-16",
    "l": [
     "17",
@@ -130,26 +125,65 @@
     "C3i",
     "5B"
    ],
-   "dib": [],
-   "sin": [
-    "17",
-    "N1",
+   "dib": [
+    "C3i",
+    "5B",
     "10",
     "16",
-    "C3i",
-    "5B"
+    "17",
+    "N1"
    ],
-   "par": []
+   "sin": [],
+   "par": [
+    14245
+   ]
   }
  ],
  "informe": [
-  "Aviso 4043 «SERVICIO ESPECIAL BUS NADAL 2026-2027»: sin leer (solo se marcan sus líneas).",
-  "Aviso 4045 «CORTE DE TRÁFICO EN TORRECEDEIRA»: sin leer (solo se marcan sus líneas).",
-  "Aviso 4039 «REAPERTURA PARCIAL AL TRÁFICO EN PABLO IGLESIAS»: sin leer (solo se marcan sus líneas).",
-  "Aviso 4033, línea 17: deshecho por el tiempo real (el tiempo real da buses de la 17 en la parada anulada 5530).",
+  "Aviso 4045, línea C1 → PRAZA AMÉRICA: sin dibujar (pasa por «Rúa do Conde de Torrecedeira», cortada, y el aviso no dice por dónde va viniendo de su calle).",
+  "Aviso 4045, línea 5A → NAVIA por FLORIDA: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea C3d → CHAPELA por GARCIA BARBON: sin dibujar (pasa por «Rúa do Conde de Torrecedeira», cortada, y el aviso no dice por dónde va viniendo de su calle).",
+  "Aviso 4045, línea C3i → COIA por GARCIA BARBON: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea C3d → CHAPELA por GARCIA BARBON: sin dibujar (pasa por «Rúa do Conde de Torrecedeira», cortada, y el aviso no dice por dónde va viniendo de su calle).",
+  "Aviso 4045, línea A → PEINADOR - AEROPORTO: sin dibujar (pasa por «Rúa do Conde de Torrecedeira», cortada, y el aviso no dice por dónde va viniendo de su calle).",
+  "Aviso 4045, línea C3i → COIA por GARCIA BARBON: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea 5A → URZAIZ - TVA DE VIGO: sin dibujar (pasa por «Rúa do Conde de Torrecedeira», cortada, y el aviso no dice por dónde va viniendo de su calle).",
+  "Aviso 4045, línea 5A → NAVIA por FLORIDA: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea A → PORTO - UNIVERSIDADE: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea A → PEINADOR - AEROPORTO: sin dibujar (pasa por «Rúa do Conde de Torrecedeira», cortada, y el aviso no dice por dónde va viniendo de su calle).",
+  "Aviso 4045, línea A → PORTO - UNIVERSIDADE: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea 15C → SAMIL por T. ALONSO: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea 15C → XESTOSO: sin dibujar (pasa por «Rúa do Conde de Torrecedeira», cortada, y el aviso no dice por dónde va viniendo de su calle).",
+  "Aviso 4045, línea 15C → XESTOSO por HOSPITAL: sin dibujar (pasa por «Rúa do Conde de Torrecedeira», cortada, y el aviso no dice por dónde va viniendo de su calle).",
+  "Aviso 4045, línea C3i → COIA - SAMIL por G. BARBON: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea C3d → BOUZAS - CHAPELA por G. BARBON: sin dibujar (pasa por «Rúa do Conde de Torrecedeira», cortada, y el aviso no dice por dónde va viniendo de su calle).",
+  "Aviso 4045, línea C3i → BOUZAS - SAMIL por G. BARBON: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea C3d → COIA - CHAPELA por G. BARBON: sin dibujar (pasa por «Rúa do Conde de Torrecedeira», cortada, y el aviso no dice por dónde va viniendo de su calle).",
+  "Aviso 4045, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea 15C → SAMIL por T. ALONSO: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045, línea 15C → SAMIL por T. ALONSO: sin dibujar (la ruta calculada da una vuelta sobre sí misma).",
+  "Aviso 4045 «CORTE DE TRÁFICO EN TORRECEDEIRA»: cambiadas —; sin poder comprobar C1, 5A, C3d, C3i, A, 11, 15C; paradas anuladas 14224, 14225, 14226, 14227, 8480, 8450, 8470, 14173.",
+  "Aviso 4039: no encuentro la parada anulada «Rúa de Pablo Iglesias Río».",
+  "Aviso 4039: no encuentro la parada anulada «Rúa de Pablo Iglesias Colexio».",
+  "Aviso 4039, línea 16 → HISPANIDAD - COIA: sin dibujar (pasa por «Rúa de Pablo Iglesias», cortada, y el aviso no dice por dónde va viniendo de su calle).",
+  "Aviso 4039 «REAPERTURA PARCIAL AL TRÁFICO EN PABLO IGLESIAS»: cambiadas —; sin poder comprobar 16; paradas anuladas —.",
+  "Aviso 4033, línea 17: deshecho por el tiempo real (el tiempo real da buses de la 17 en la parada anulada 3230).",
   "Aviso 4033 «DESVÍOS NADAL 2026 / 2027»: cambiadas 5B, 15B, 9B; sin poder comprobar 17; paradas anuladas 14121, 20198, 6620, 20193, 3230, 5530.",
-  "Aviso 3827 «SERVICIO LANZADERAS FÚTBOL»: sin leer (solo se marcan sus líneas).",
-  "Aviso 3776 «ACTUALIZACIÓN CORTE TRÁFICO CESÁREO VÁZQUEZ»: sin leer (solo se marcan sus líneas).",
-  "Aviso 3737 «PARADA DE LA AVD. GARCÍA BARBÓN, 43 - ANULADA»: sin leer (solo se marcan sus líneas)."
+  "Aviso 3776: no encuentro la parada anulada «Estrada de Camposancos 498».",
+  "Aviso 3776: no encuentro la parada anulada «Estrada de Camposancos Cruce Camiño da Estea».",
+  "Aviso 3776, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la parada final no está en el recorrido).",
+  "Aviso 3776, línea 12A → HOSPITAL MEIXOEIRO: sin dibujar (no sé dónde vuelve al recorrido normal tras «Baixada Praia»).",
+  "Aviso 3776, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la parada final no está en el recorrido).",
+  "Aviso 3776, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la parada final no está en el recorrido).",
+  "Aviso 3776, línea 11 → CABRAL por VIA TRANVIA: sin dibujar (la parada de inicio no está en el recorrido).",
+  "Aviso 3776, línea 11 → CABRAL por STA MARINA: sin dibujar (la parada de inicio no está en el recorrido).",
+  "Aviso 3776, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la parada final no está en el recorrido).",
+  "Aviso 3776, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la parada final no está en el recorrido).",
+  "Aviso 3776, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la parada final no está en el recorrido).",
+  "Aviso 3776 «ACTUALIZACIÓN CORTE TRÁFICO CESÁREO VÁZQUEZ»: cambiadas —; sin poder comprobar 11, 12A; paradas anuladas —.",
+  "Aviso 3737 «PARADA DE LA AVD. GARCÍA BARBÓN, 43 - ANULADA»: cambiadas C3i, 5B, 10, 16, 17, N1; sin poder comprobar —; paradas anuladas 14245."
  ]
 }
