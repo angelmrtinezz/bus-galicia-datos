@@ -1,6 +1,36 @@
 {
- "comprobado": "2026-11-23T01:29:37.035Z",
+ "comprobado": "2026-11-25T07:40:23.117Z",
  "desvios": [
+  {
+   "a": 4047,
+   "t": "CORTE TRÁFICO ZONA BAGUNDA",
+   "desde": "2026-11-24",
+   "hasta": "2027-12-31",
+   "l": [
+    "6",
+    "25"
+   ],
+   "dib": [],
+   "sin": [
+    "6",
+    "25"
+   ],
+   "par": []
+  },
+  {
+   "a": 4043,
+   "t": "SERVICIO ESPECIAL BUS NADAL 2026-2027",
+   "desde": "2026-11-20",
+   "hasta": "2027-01-10",
+   "l": [
+    "TUR"
+   ],
+   "dib": [],
+   "sin": [
+    "TUR"
+   ],
+   "par": []
+  },
   {
    "a": 4039,
    "t": "REAPERTURA PARCIAL AL TRÁFICO EN PABLO IGLESIAS",
@@ -18,7 +48,7 @@
   {
    "a": 4033,
    "t": "DESVÍOS NADAL 2026 / 2027",
-   "desde": "2026-11-14",
+   "desde": "2026-11-11",
    "hasta": "2027-01-10",
    "l": [
     "15C",
@@ -44,27 +74,37 @@
     "4C",
     "4A"
    ],
-   "dib": [
-    "15B",
-    "9B"
-   ],
+   "dib": [],
    "sin": [
+    "15C",
+    "24",
+    "16",
+    "H1",
+    "N1",
+    "C3i",
+    "15B",
     "17",
-    "5B"
+    "N4",
+    "12B",
+    "28",
+    "9B",
+    "C3d",
+    "C1",
+    "5A",
+    "10",
+    "A",
+    "7",
+    "11",
+    "5B",
+    "4C",
+    "4A"
    ],
-   "par": [
-    14121,
-    20198,
-    6620,
-    20193,
-    3230,
-    5530
-   ]
+   "par": []
   },
   {
    "a": 3776,
    "t": "ACTUALIZACIÓN CORTE TRÁFICO CESÁREO VÁZQUEZ",
-   "desde": "2026-07-27",
+   "desde": "2026-07-22",
    "hasta": "2027-07-31",
    "l": [
     "12A",
@@ -72,15 +112,15 @@
    ],
    "dib": [],
    "sin": [
-    "11",
-    "12A"
+    "12A",
+    "11"
    ],
    "par": []
   },
   {
    "a": 3737,
    "t": "PARADA DE LA AVD. GARCÍA BARBÓN, 43 - ANULADA",
-   "desde": "2026-06-29",
+   "desde": "2026-06-26",
    "hasta": "2027-05-16",
    "l": [
     "17",
@@ -90,40 +130,25 @@
     "C3i",
     "5B"
    ],
-   "dib": [
-    "C3i",
-    "5B",
+   "dib": [],
+   "sin": [
+    "17",
+    "N1",
     "10",
     "16",
-    "17"
+    "C3i",
+    "5B"
    ],
-   "sin": [
-    "N1"
-   ],
-   "par": [
-    14245
-   ]
+   "par": []
   }
  ],
  "informe": [
-  "Aviso 4039: no encuentro la parada anulada «Rúa de Pablo Iglesias Río».",
-  "Aviso 4039: no encuentro la parada anulada «Rúa de Pablo Iglesias Colexio».",
-  "Aviso 4039, línea 16 → HISPANIDAD - COIA: sin dibujar (pasa por «Rúa de Pablo Iglesias», cortada, y el aviso no dice por dónde va viniendo de su calle).",
-  "Aviso 4039 «REAPERTURA PARCIAL AL TRÁFICO EN PABLO IGLESIAS»: cambiadas —; sin poder comprobar 16; paradas anuladas —.",
-  "Aviso 4033, línea 17: deshecho por el tiempo real (el tiempo real da buses de la 17 en la parada anulada 3230).",
-  "Aviso 4033, línea 5B: deshecho por el tiempo real (el tiempo real da buses de la 5B en la parada anulada 5530).",
-  "Aviso 4033 «DESVÍOS NADAL 2026 / 2027»: cambiadas 15B, 9B; sin poder comprobar 17, 5B; paradas anuladas 14121, 20198, 6620, 20193, 3230, 5530.",
-  "Aviso 3776: no encuentro la parada anulada «Estrada de Camposancos 498».",
-  "Aviso 3776: no encuentro la parada anulada «Estrada de Camposancos Cruce Camiño da Estea».",
-  "Aviso 3776, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la parada final no está en el recorrido).",
-  "Aviso 3776, línea 12A → HOSPITAL MEIXOEIRO: sin dibujar (no sé dónde vuelve al recorrido normal tras «Baixada Praia»).",
-  "Aviso 3776, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la parada final no está en el recorrido).",
-  "Aviso 3776, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la parada final no está en el recorrido).",
-  "Aviso 3776, línea 11 → CABRAL por VIA TRANVIA: sin dibujar (la parada de inicio no está en el recorrido).",
-  "Aviso 3776, línea 11 → CABRAL por STA MARINA: sin dibujar (la parada de inicio no está en el recorrido).",
-  "Aviso 3776, línea 11 → SAN MIGUEL por FLORIDA: sin dibujar (la parada final no está en el recorrido).",
-  "Aviso 3776 «ACTUALIZACIÓN CORTE TRÁFICO CESÁREO VÁZQUEZ»: cambiadas —; sin poder comprobar 11, 12A; paradas anuladas —.",
-  "Aviso 3737, línea N1: deshecho por el tiempo real (el tiempo real da buses de la N1 en la parada anulada 14245).",
-  "Aviso 3737 «PARADA DE LA AVD. GARCÍA BARBÓN, 43 - ANULADA»: cambiadas C3i, 5B, 10, 16, 17; sin poder comprobar N1; paradas anuladas 14245."
+  "Aviso 4047 «CORTE TRÁFICO ZONA BAGUNDA»: sin leer (solo se marcan sus líneas).",
+  "Aviso 4043 «SERVICIO ESPECIAL BUS NADAL 2026-2027»: ha cambiado y está sin volver a leer (solo se marcan sus líneas).",
+  "Aviso 4039 «REAPERTURA PARCIAL AL TRÁFICO EN PABLO IGLESIAS»: ha cambiado y está sin volver a leer (solo se marcan sus líneas).",
+  "Aviso 4033 «DESVÍOS NADAL 2026 / 2027»: ha cambiado y está sin volver a leer (solo se marcan sus líneas).",
+  "Aviso 3827 «SERVICIO LANZADERAS FÚTBOL»: ha cambiado y está sin volver a leer (solo se marcan sus líneas).",
+  "Aviso 3776 «ACTUALIZACIÓN CORTE TRÁFICO CESÁREO VÁZQUEZ»: ha cambiado y está sin volver a leer (solo se marcan sus líneas).",
+  "Aviso 3737 «PARADA DE LA AVD. GARCÍA BARBÓN, 43 - ANULADA»: ha cambiado y está sin volver a leer (solo se marcan sus líneas)."
  ]
 }

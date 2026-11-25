@@ -24,7 +24,8 @@
     }
    ],
    "ocasional": null
-  }
+  },
+  "desactualizada": true
  },
  "3776": {
   "huella": "e986bce3afbc69e7f8044c3aaa19850c",
@@ -103,7 +104,8 @@
     }
    ],
    "ocasional": "El desvío de la 12A es solo en días laborables. Quedan anuladas todas las paradas de Cesáreo Vázquez excepto la nº 182 y la nº 169."
-  }
+  },
+  "desactualizada": true
  },
  "3827": {
   "huella": "67c68e16978eb9a78a48aa3991c94e63",
@@ -123,7 +125,8 @@
    "recortes": [],
    "paradas_anuladas": [],
    "ocasional": null
-  }
+  },
+  "desactualizada": true
  },
  "4033": {
   "huella": "7fb9568165a7d38355089d798e5fa24c",
@@ -290,7 +293,8 @@
     }
    ],
    "ocasional": "En días de mucha afluencia se anulan también las paradas de Colón 12 y 26."
-  }
+  },
+  "desactualizada": true
  },
  "4039": {
   "huella": "6917e4c0bd8c1d26fd7480afb2d7d1be",
@@ -342,7 +346,8 @@
     }
    ],
    "ocasional": "Solo en dirección FF.CC. Guixar; en dirección Coia la 16 va por Pablo Iglesias."
-  }
+  },
+  "desactualizada": true
  },
  "4043": {
   "huella": "3e67501649db1b20c938ccba05605c4a",
@@ -362,6 +367,7 @@
    "recortes": [],
    "paradas_anuladas": [],
    "ocasional": null
-  }
+  },
+  "desactualizada": true
  }
 }
