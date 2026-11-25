@@ -1,22 +1,6 @@
 {
- "comprobado": "2026-11-25T07:40:23.117Z",
+ "comprobado": "2026-11-25T17:06:11.809Z",
  "desvios": [
-  {
-   "a": 4047,
-   "t": "CORTE TRÁFICO ZONA BAGUNDA",
-   "desde": "2026-11-24",
-   "hasta": "2027-12-31",
-   "l": [
-    "6",
-    "25"
-   ],
-   "dib": [],
-   "sin": [
-    "6",
-    "25"
-   ],
-   "par": []
-  },
   {
    "a": 4043,
    "t": "SERVICIO ESPECIAL BUS NADAL 2026-2027",
@@ -143,7 +127,6 @@
   }
  ],
  "informe": [
-  "Aviso 4047 «CORTE TRÁFICO ZONA BAGUNDA»: sin leer (solo se marcan sus líneas).",
   "Aviso 4043 «SERVICIO ESPECIAL BUS NADAL 2026-2027»: ha cambiado y está sin volver a leer (solo se marcan sus líneas).",
   "Aviso 4039 «REAPERTURA PARCIAL AL TRÁFICO EN PABLO IGLESIAS»: ha cambiado y está sin volver a leer (solo se marcan sus líneas).",
   "Aviso 4033 «DESVÍOS NADAL 2026 / 2027»: ha cambiado y está sin volver a leer (solo se marcan sus líneas).",

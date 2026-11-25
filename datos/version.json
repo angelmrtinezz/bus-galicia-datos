@@ -1,15 +1,15 @@
 {
   "formato": 1,
-  "generado": "2026-11-25T07:40:23.117Z",
+  "generado": "2026-11-25T17:06:11.809Z",
   "hashGtfs": "8c6099659e6ff1579aa8ab005263e23bacdee420f9f00dde0c4ad0215ebfe235",
-  "hashContenido": "4184af659895719c6a7227dbe7adfccd7db3477745d5d0a0424f0091c45a00f6",
-  "desvios": 6,
+  "hashContenido": "145a5fff9cad669d1b15716980e22bc724a01375d085ce840d3357003f0de575",
+  "desvios": 5,
   "desde": "20261120",
   "hasta": "20261126",
   "archivos": {
     "horarios": {
       "nombre": "horarios.json",
-      "bytes": 598089
+      "bytes": 597952
     },
     "formas": {
       "nombre": "formas.json",
