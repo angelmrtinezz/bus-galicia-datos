@@ -369,5 +369,82 @@
    "ocasional": null
   },
   "desactualizada": true
+ },
+ "4047": {
+  "huella": "59e670a792be67a427ee9a0f8af1028c",
+  "fecha": "2026-11-25T17:05:09.712Z",
+  "modelo": "claude-code (tarea local)",
+  "pdf": "https://axenda-files.vigo.org/media/4047/155CORTETRAFICOZONABAGUNDA_GAL_V1_es.pdf",
+  "datos": {
+   "afecta_recorrido": true,
+   "resumen": "Corte de tráfico por obras en la zona de la Bagunda. L6 (dirección Pizarro) se desvía desde Alcalde Lavadores por Bagunda y Pateira hasta Martínez Garrido; L25 (dirección Cabral) se desvía desde Martínez Garrido por Ceboleira, Alcalde Lavadores y Bagunda hasta Severino Cobas. Sin desvío en los sentidos contrarios. Paradas anuladas: Pateira 20 (L25), Ceboleira 49 y Alcalde Lavadores 29 (L6).",
+   "vigencia": {
+    "desde": "2026-11-30",
+    "hasta": "2027-12-31",
+    "hora_inicio": null,
+    "hora_fin": null
+   },
+   "tramos": [
+    {
+     "lineas": [
+      "6"
+     ],
+     "lineas_excluidas": [],
+     "calle_cortada": "Rúa da Ceboleira",
+     "hacia": "Avenida de Eduardo Martínez Garrido",
+     "desde_calle": "Avenida do Alcalde Lavadores",
+     "itinerario": [
+      "Rúa da Bagunda",
+      "Rúa da Pateira",
+      "Avenida de Eduardo Martínez Garrido"
+     ],
+     "paradas_provisionales": []
+    },
+    {
+     "lineas": [
+      "25"
+     ],
+     "lineas_excluidas": [],
+     "calle_cortada": "Rúa da Pateira",
+     "hacia": "Rúa de Severino Cobas",
+     "desde_calle": "Avenida de Eduardo Martínez Garrido",
+     "itinerario": [
+      "Rúa da Ceboleira",
+      "Avenida do Alcalde Lavadores",
+      "Rúa da Bagunda",
+      "Rúa de Severino Cobas"
+     ],
+     "paradas_provisionales": []
+    }
+   ],
+   "recortes": [],
+   "paradas_anuladas": [
+    {
+     "calle": "Rúa da Pateira",
+     "numero": "20",
+     "numero_parada": "14376",
+     "lineas": [
+      "25"
+     ]
+    },
+    {
+     "calle": "Rúa da Ceboleira",
+     "numero": "49",
+     "numero_parada": "3070",
+     "lineas": [
+      "6"
+     ]
+    },
+    {
+     "calle": "Avenida do Alcalde Lavadores",
+     "numero": "29",
+     "numero_parada": "140",
+     "lineas": [
+      "6"
+     ]
+    }
+   ],
+   "ocasional": null
+  }
  }
 }
