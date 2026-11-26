@@ -1,6 +1,60 @@
 {
- "comprobado": "2026-11-25T17:06:11.809Z",
+ "comprobado": "2026-11-26T07:39:23.847Z",
  "desvios": [
+  {
+   "a": 4048,
+   "t": "CORTE TRÁFICO BEMBRIVE CARRERA NOCTURNA",
+   "desde": "2026-11-25",
+   "hasta": "2026-11-28",
+   "l": [
+    "14",
+    "6"
+   ],
+   "dib": [],
+   "sin": [
+    "14",
+    "6"
+   ],
+   "par": []
+  },
+  {
+   "a": 4049,
+   "t": "CORTE DE TRÁFICO - CARRERA \" ÉRGUETE E CORRE\"",
+   "desde": "2026-11-25",
+   "hasta": "2026-11-28",
+   "l": [
+    "15C",
+    "C3d",
+    "C3i",
+    "15B",
+    "10"
+   ],
+   "dib": [],
+   "sin": [
+    "15C",
+    "C3d",
+    "C3i",
+    "15B",
+    "10"
+   ],
+   "par": []
+  },
+  {
+   "a": 4047,
+   "t": "CORTE TRÁFICO ZONA BAGUNDA",
+   "desde": "2026-11-24",
+   "hasta": "2027-12-31",
+   "l": [
+    "25",
+    "6"
+   ],
+   "dib": [],
+   "sin": [
+    "25",
+    "6"
+   ],
+   "par": []
+  },
   {
    "a": 4043,
    "t": "SERVICIO ESPECIAL BUS NADAL 2026-2027",
@@ -127,6 +181,9 @@
   }
  ],
  "informe": [
+  "Aviso 4048 «CORTE TRÁFICO BEMBRIVE CARRERA NOCTURNA»: sin leer (solo se marcan sus líneas).",
+  "Aviso 4049 «CORTE DE TRÁFICO - CARRERA \" ÉRGUETE E CORRE\"»: sin leer (solo se marcan sus líneas).",
+  "Aviso 4047 «CORTE TRÁFICO ZONA BAGUNDA»: ha cambiado y está sin volver a leer (solo se marcan sus líneas).",
   "Aviso 4043 «SERVICIO ESPECIAL BUS NADAL 2026-2027»: ha cambiado y está sin volver a leer (solo se marcan sus líneas).",
   "Aviso 4039 «REAPERTURA PARCIAL AL TRÁFICO EN PABLO IGLESIAS»: ha cambiado y está sin volver a leer (solo se marcan sus líneas).",
   "Aviso 4033 «DESVÍOS NADAL 2026 / 2027»: ha cambiado y está sin volver a leer (solo se marcan sus líneas).",
