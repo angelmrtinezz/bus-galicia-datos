@@ -124,6 +124,40 @@ for (const cd of leerCsv('calendar_dates.txt')) {
   else if (cd.exception_type === '2' && servicios.has(cd.service_id)) set.delete(servicios.get(cd.service_id));
 }
 
+// --- Días de reserva, por si el Concello tarda en publicar el GTFS nuevo ---
+// El GTFS solo trae ~7 días y a veces el Concello lo renueva tarde: el 26-11-2026 los horarios se
+// acababan ese mismo día y la app se habría quedado sin rutas. Por eso alargamos DIAS_RESERVA días
+// repitiendo el mismo día de la semana anterior. En cuanto llega el GTFS nuevo, manda el oficial
+// (estos días se vuelven a calcular en cada compilación y nunca pisan un día que traiga el GTFS).
+const DIAS_RESERVA = 7;
+const claveDia = (d) => d.toISOString().slice(0, 10).replace(/-/g, '');
+const diaUTC = (f) => new Date(`${f.slice(0, 4)}-${f.slice(4, 6)}-${f.slice(6, 8)}T12:00:00Z`);
+const conServicio = Object.keys(fechas)
+  .filter((f) => fechas[f].size)
+  .sort();
+// Un laborable con muchos menos servicios que lo normal es un festivo: no lo copiamos a otro laborable.
+const laborables = conServicio.filter((f) => [1, 2, 3, 4, 5].includes(diaUTC(f).getUTCDay()));
+const tamLaborable = laborables.map((f) => fechas[f].size).sort((a, b) => a - b)[Math.floor(laborables.length / 2)] ?? 0;
+const pareceFestivo = (f) => [1, 2, 3, 4, 5].includes(diaUTC(f).getUTCDay()) && fechas[f].size < tamLaborable * 0.8;
+const laborableTipo = laborables.filter((f) => !pareceFestivo(f)).at(-1);
+const diasReserva = [];
+if (conServicio.length) {
+  const d = diaUTC(conServicio.at(-1));
+  for (let k = 0; k < DIAS_RESERVA; k++) {
+    d.setUTCDate(d.getUTCDate() + 1);
+    const f = claveDia(d);
+    if (fechas[f]?.size) continue;
+    const semanaAntes = new Date(d);
+    semanaAntes.setUTCDate(semanaAntes.getUTCDate() - 7);
+    let ref = claveDia(semanaAntes);
+    if (fechas[ref]?.size && pareceFestivo(ref) && laborableTipo) ref = laborableTipo;
+    if (!fechas[ref]?.size) continue;
+    fechas[f] = new Set(fechas[ref]);
+    diasReserva.push(f);
+  }
+}
+if (diasReserva.length) console.log(`Días de reserva (copiados de la semana anterior): ${diasReserva.join(', ')}`);
+
 // --- Líneas y viajes ---
 const rutasGtfs = leerCsv('routes.txt');
 const lineas = new Map(rutasGtfs.map((r) => [r.route_id, limpiar(r.route_short_name)]));
@@ -192,6 +226,8 @@ const resultado = {
       .sort()
       .map(([f, s]) => [f, [...s].sort((a, b) => a - b)]),
   ),
+  // Días que no trae el GTFS y hemos copiado de la semana anterior (ver «Días de reserva»).
+  reserva: diasReserva,
   paradas,
   transbordos,
   patrones: [...patrones.values()],

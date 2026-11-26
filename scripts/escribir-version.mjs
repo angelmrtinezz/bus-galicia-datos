@@ -31,6 +31,8 @@ const version = {
   desvios: (horarios.desvios ?? []).length,
   desde: fechas[0],
   hasta: fechas[fechas.length - 1],
+  // Primer día copiado de la semana anterior porque el GTFS aún no lo trae (null = todo oficial).
+  reservaDesde: horarios.reserva?.[0] ?? null,
   archivos: {
     horarios: { nombre: 'horarios.json', bytes: statSync('datos/horarios.json').size },
     formas: { nombre: 'formas.json', bytes: statSync('datos/formas.json').size },
