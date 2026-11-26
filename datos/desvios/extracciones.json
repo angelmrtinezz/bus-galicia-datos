@@ -371,8 +371,8 @@
   "desactualizada": true
  },
  "4047": {
-  "huella": "59e670a792be67a427ee9a0f8af1028c",
-  "fecha": "2026-11-25T17:05:09.712Z",
+  "huella": "beb88e6777ad89cbd3b93e03085bded7",
+  "fecha": "2026-11-26T08:41:46.612Z",
   "modelo": "claude-code (tarea local)",
   "pdf": "https://axenda-files.vigo.org/media/4047/155CORTETRAFICOZONABAGUNDA_GAL_V1_es.pdf",
   "datos": {
@@ -445,7 +445,267 @@
     }
    ],
    "ocasional": null
-  },
-  "desactualizada": true
+  }
+ },
+ "4048": {
+  "huella": "9fd4937ded14125f84510359ca4aa432",
+  "fecha": "2026-11-26T08:41:47.909Z",
+  "modelo": "claude-code (tarea local)",
+  "pdf": "https://axenda-files.vigo.org/media/4048/156CORTETRAFICOCARREIRANOCTURNABEMBRIVE_GAL__es.pdf",
+  "datos": {
+   "afecta_recorrido": true,
+   "resumen": "Sábado 28 de noviembre desde las 18:00 hasta el fin de la Carreira Nocturna de Bembrive, corte en Estrada de Bembrive y Rúa da Cruz. L6 se desvía desde el cruce de Eifonso por Rúa de Eifonso, Camiño de Palamés y Estrada de Bembrive; L14 desde Xeme por Rúa de Eifonso, Camiño de Palamés y Subida á Cruz, en ambos sentidos. Paradas anuladas en Estrada de Bembrive y Rúa da Cruz.",
+   "vigencia": {
+    "desde": "2026-11-28",
+    "hasta": "2026-11-28",
+    "hora_inicio": "18:00",
+    "hora_fin": null
+   },
+   "tramos": [
+    {
+     "lineas": [
+      "6"
+     ],
+     "lineas_excluidas": [],
+     "calle_cortada": "Estrada de Bembrive",
+     "hacia": null,
+     "desde_calle": null,
+     "itinerario": [
+      "Rúa de Eifonso",
+      "Camiño de Palamés",
+      "Estrada de Bembrive"
+     ],
+     "paradas_provisionales": []
+    },
+    {
+     "lineas": [
+      "14"
+     ],
+     "lineas_excluidas": [],
+     "calle_cortada": "Estrada de Bembrive",
+     "hacia": null,
+     "desde_calle": "Rúa de Xeme",
+     "itinerario": [
+      "Rúa de Eifonso",
+      "Camiño de Palamés",
+      "Subida á Cruz"
+     ],
+     "paradas_provisionales": []
+    }
+   ],
+   "recortes": [],
+   "paradas_anuladas": [
+    {
+     "calle": "Estrada de Bembrive",
+     "numero": "160",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Estrada de Bembrive",
+     "numero": "173",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Estrada de Bembrive",
+     "numero": "180",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Estrada de Bembrive",
+     "numero": "195",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Estrada de Bembrive",
+     "numero": "237",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Estrada de Bembrive",
+     "numero": "238",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Estrada de Bembrive",
+     "numero": "269",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Estrada de Bembrive",
+     "numero": "278",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Estrada de Bembrive",
+     "numero": "318",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Estrada de Bembrive",
+     "numero": "Alameda",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Estrada de Bembrive",
+     "numero": "Centro de saúde",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Estrada de Bembrive",
+     "numero": "Rapadouros",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Rúa da Cruz",
+     "numero": "1",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Rúa da Cruz",
+     "numero": "2",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Rúa da Cruz",
+     "numero": "18",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Rúa da Cruz",
+     "numero": "19",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Rúa da Cruz",
+     "numero": "36",
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Rúa da Cruz",
+     "numero": "49",
+     "numero_parada": null,
+     "lineas": []
+    }
+   ],
+   "ocasional": null
+  }
+ },
+ "4049": {
+  "huella": "3f9e017feac0af2ad66fb80335dc39be",
+  "fecha": "2026-11-26T08:41:49.135Z",
+  "modelo": "claude-code (tarea local)",
+  "pdf": "https://axenda-files.vigo.org/media/4049/157CORTETRAFICOCARREIRA-ERGUETEECORRE_GAL_V1_es.pdf",
+  "datos": {
+   "afecta_recorrido": true,
+   "resumen": "Sábado 28 de noviembre de 09:30 a 11:00 aprox., carrera «Érguete e Corre» en Bouzas. L10, L15B y L15C hacia Praza de Eugenio Fadrique van desde Samil (Verbum) por Avenida de Samil, Avenida de Europa, Avenida de Castelao y Rúa da Coruña; hacia Samil al revés. C3d y C3i tienen desvíos distintos según la variante (Bouzas/Coia) y no se dibujan. Anuladas todas las paradas de Eduardo Cabello, Pescadores, Suárez Llanos, Tomás Paredes, Tomás Alonso, Camilo Veiga, Avenida da Atlántida y Avenida de Samil entre Atlántida y la rotonda de Argazada.",
+   "vigencia": {
+    "desde": "2026-11-28",
+    "hasta": "2026-11-28",
+    "hora_inicio": "09:30",
+    "hora_fin": "11:00"
+   },
+   "tramos": [
+    {
+     "lineas": [
+      "10",
+      "15B",
+      "15C"
+     ],
+     "lineas_excluidas": [],
+     "calle_cortada": "Avenida da Atlántida",
+     "hacia": "Praza de Eugenio Fadrique",
+     "desde_calle": "Avenida de Samil",
+     "itinerario": [
+      "Avenida de Samil",
+      "Avenida de Europa",
+      "Avenida de Castelao",
+      "Rúa da Coruña",
+      "Praza de Eugenio Fadrique"
+     ],
+     "paradas_provisionales": []
+    },
+    {
+     "lineas": [
+      "10",
+      "15B",
+      "15C"
+     ],
+     "lineas_excluidas": [],
+     "calle_cortada": "Avenida da Atlántida",
+     "hacia": "Avenida de Samil",
+     "desde_calle": "Praza de Eugenio Fadrique",
+     "itinerario": [
+      "Rúa da Coruña",
+      "Avenida de Castelao",
+      "Avenida de Europa",
+      "Avenida de Samil"
+     ],
+     "paradas_provisionales": []
+    }
+   ],
+   "recortes": [],
+   "paradas_anuladas": [
+    {
+     "calle": "Rúa de Eduardo Cabello",
+     "numero": null,
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Rúa dos Pescadores",
+     "numero": null,
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Rúa de Suárez Llanos",
+     "numero": null,
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Rúa de Tomás Paredes",
+     "numero": null,
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Rúa de Tomás Alonso",
+     "numero": null,
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Rúa de Camilo Veiga",
+     "numero": null,
+     "numero_parada": null,
+     "lineas": []
+    },
+    {
+     "calle": "Avenida da Atlántida",
+     "numero": null,
+     "numero_parada": null,
+     "lineas": []
+    }
+   ],
+   "ocasional": null
+  }
  }
 }
