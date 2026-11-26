@@ -445,7 +445,8 @@
     }
    ],
    "ocasional": null
-  }
+  },
+  "desactualizada": true
  },
  "4048": {
   "huella": "9fd4937ded14125f84510359ca4aa432",
@@ -605,7 +606,8 @@
     }
    ],
    "ocasional": null
-  }
+  },
+  "desactualizada": true
  },
  "4049": {
   "huella": "3f9e017feac0af2ad66fb80335dc39be",
@@ -706,6 +708,7 @@
     }
    ],
    "ocasional": null
-  }
+  },
+  "desactualizada": true
  }
 }
