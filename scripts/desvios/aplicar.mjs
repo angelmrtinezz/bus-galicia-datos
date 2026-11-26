@@ -224,7 +224,7 @@ export async function aplicarDesvios({ horarios, formas, avisos, extracciones, p
       if (!filasDentro.length) return;
       const antes = patron.v;
       patron.v = filasFuera;
-      const nuevo = { l: patron.l, d: patron.d, ...(patron.nb ? { nb: patron.nb } : {}), p: t.p, v: filasDentro, dv: aviso.id, _antes: antes };
+      const nuevo = { l: patron.l, d: patron.d, ...(patron.nb ? { nb: patron.nb } : {}), ...(patron.ns ? { ns: patron.ns } : {}), p: t.p, v: filasDentro, dv: aviso.id, _antes: antes };
       if (!dibujado) nuevo.dvSoloParadas = 1;
       h.patrones.push(nuevo);
       fs.push(aForma(t));

@@ -188,29 +188,100 @@ for (const st of leerCsv('stop_times.txt')) {
 }
 for (const v of viajes.values()) v.tiempos.sort((a, b) => a[0] - b[0]);
 
+// --- Trazados del GTFS (se usan para las lanzaderas y para formas.json) ---
+const puntosForma = new Map();
+for (const s of leerCsv('shapes.txt')) {
+  let lista = puntosForma.get(s.shape_id);
+  if (!lista) puntosForma.set(s.shape_id, (lista = []));
+  lista.push([Number(s.shape_pt_sequence), Number(s.shape_pt_lat), Number(s.shape_pt_lon)]);
+}
+for (const lista of puntosForma.values()) lista.sort((a, b) => a[0] - b[0]);
+
 // --- Lanzaderas de la universidad (U1, U2) ---
-// Lo que el GTFS no cuenta y nos dijeron los usuarios (27-11-2026):
-//  1. Los viajes hacia la universidad acaban en Humanidades, pero el MISMO bus sigue dando la vuelta
-//     al campus (Económicas… Enxeñeiros, Telecomunicacións), que en el GTFS es el principio del viaje
-//     de vuelta. Sin esto, para ir a Teleco la app mandaba «transbordar» a otro U1 en Humanidades.
-//     Así que a cada viaje que acaba en Humanidades le añadimos esa vuelta, con las horas del viaje
-//     de vuelta que sale justo después.
-//  2. El U2 hacia la universidad solo deja gente en el CEU (Maxisterio, Avda. de Madrid 110,
-//     junto al Alcampo) y en el campus; en el resto de paradas solo recoge.
+// El GTFS no refleja cómo funcionan (avisos de usuarios del 26-11-2026 y trazados del propio GTFS):
+//  · IDA (hacia la universidad): en la ciudad SOLO SUBEN (el U2 también deja en el CEU, Avda. de
+//    Madrid 110, junto al Alcampo). En el campus SOLO BAJAN.
+//    - El U1 entra por abajo y pasa por Enxeñeiros y Telecomunicacións antes de subir a Humanidades,
+//      pero el GTFS no pone esas paradas en la ida (su trazado sí pasa por ellas): las añadimos.
+//    - El GTFS acaba la ida en Humanidades, pero el mismo bus sigue la vuelta al campus (Económicas,
+//      Xurídicas, Química, Bioloxía…), que en el GTFS es el principio del viaje de vuelta: se la
+//      añadimos con las horas del viaje de vuelta que sale justo después, hasta que repite parada.
+//  · VUELTA (desde Humanidades): por el campus se sube y se baja; en las paradas por las que ya pasó
+//    a la ida (Enxeñeiros y Teleco en el U1) SOLO SUBEN; ya en la ciudad SOLO BAJAN.
+// Se guarda en cada patrón: nb = paradas donde no se baja, ns = paradas donde no se sube.
 const LANZADERAS = new Set(['U1', 'U2']);
 const HUMANIDADES = 8720;
 const CEU = 1990;
 const esCampus = (idx) => paradas[idx][1].includes('(CUVI)');
 const numeroDe = (idx) => paradas[idx][0];
+/** Paradas «de primera pasada» de cada lanzadera: las del campus que la ida toca antes de Humanidades. */
+const primeraPasada = new Map(); // linea → Set(idxParada)
 {
   const lanz = [...viajes.values()].filter((v) => LANZADERAS.has(v.linea) && v.tiempos.length >= 2);
+  const ida = (v) => !esCampus(v.tiempos[0][1]) && v.tiempos.some((t) => esCampus(t[1]));
+  // Paradas del campus que usan de verdad las lanzaderas (no las de otras líneas, como «Teleco B»).
+  const campusLanz = new Set(lanz.flatMap((v) => v.tiempos.map((t) => t[1])).filter(esCampus));
+  const metros = (a, b) => Math.hypot((a[0] - b[0]) * 111320, (a[1] - b[1]) * 111320 * Math.cos((a[0] * Math.PI) / 180));
+
+  // 1) Paradas del campus por las que pasa el trazado de la ida y que el GTFS no pone.
+  let anadidas = 0;
+  for (const v of lanz.filter(ida)) {
+    const pts = puntosForma.get(v.formas[0]);
+    if (!pts || pts.length < 2) continue;
+    const acum = [0];
+    for (let k = 1; k < pts.length; k++) acum.push(acum[k - 1] + metros([pts[k - 1][1], pts[k - 1][2]], [pts[k][1], pts[k][2]]));
+    const enTrazado = (idx, desde = 0) => {
+      const p = [paradas[idx][2], paradas[idx][3]];
+      for (let k = desde; k < pts.length; k++) if (metros(p, [pts[k][1], pts[k][2]]) < 35) return k;
+      return -1;
+    };
+    // Dónde cae cada parada del viaje en el trazado (avanzando).
+    const pos = [];
+    let desde = 0;
+    for (const t of v.tiempos) {
+      const p = [paradas[t[1]][2], paradas[t[1]][3]];
+      let mejor = desde, mejorD = Infinity;
+      for (let k = desde; k < pts.length; k++) {
+        const d = metros(p, [pts[k][1], pts[k][2]]);
+        if (d < mejorD) { mejorD = d; mejor = k; }
+      }
+      pos.push(mejor);
+      desde = mejor;
+    }
+    const ultimaCiudad = v.tiempos.findLastIndex((t) => !esCampus(t[1]));
+    const nuevas = [];
+    for (const c of campusLanz) {
+      if (v.tiempos.some((t) => t[1] === c)) continue;
+      const k = enTrazado(c, pos[ultimaCiudad]);
+      if (k < 0) continue;
+      // Entre qué dos paradas del viaje cae.
+      const j = pos.findIndex((x, i) => i > ultimaCiudad && x > k);
+      if (j <= 0) continue;
+      const [a, b] = [pos[j - 1], pos[j]];
+      const f = acum[b] > acum[a] ? (acum[k] - acum[a]) / (acum[b] - acum[a]) : 0.5;
+      const hora = Math.round(v.tiempos[j - 1][2] + f * (v.tiempos[j][2] - v.tiempos[j - 1][2]));
+      nuevas.push({ j, k, t: [0, c, hora] });
+    }
+    if (!nuevas.length) continue;
+    nuevas.sort((x, y) => x.k - y.k);
+    // Insertamos de atrás adelante para no mover las posiciones pendientes.
+    for (const n of [...nuevas].reverse()) v.tiempos.splice(n.j, 0, n.t);
+    v.tiempos.forEach((t, i) => (t[0] = i + 1));
+    anadidas += nuevas.length;
+    const hum = v.tiempos.findIndex((t) => numeroDe(t[1]) === HUMANIDADES);
+    for (const t of v.tiempos.slice(ultimaCiudad + 1, hum < 0 ? undefined : hum)) {
+      if (!primeraPasada.has(v.linea)) primeraPasada.set(v.linea, new Set());
+      primeraPasada.get(v.linea).add(t[1]);
+    }
+  }
+
+  // 2) La ida que acaba en Humanidades sigue la vuelta al campus del bus que sale justo después.
   const salenDeHumanidades = lanz.filter((v) => numeroDe(v.tiempos[0][1]) === HUMANIDADES);
   const usados = new Set();
   let unidos = 0;
-  for (const v of lanz) {
+  for (const v of lanz.filter(ida)) {
     const ultima = v.tiempos[v.tiempos.length - 1];
     if (numeroDe(ultima[1]) !== HUMANIDADES) continue;
-    // El viaje de vuelta del mismo día que sale de Humanidades en los 10 minutos siguientes.
     let w = null;
     for (const c of salenDeHumanidades) {
       if (usados.has(c) || c.servicio !== v.servicio) continue;
@@ -219,34 +290,48 @@ const numeroDe = (idx) => paradas[idx][0];
       if (!w || c.tiempos[0][2] < w.tiempos[0][2]) w = c;
     }
     if (!w) continue;
-    // Su tramo por el campus, sin Humanidades (ya está) y hasta la última parada del campus.
+    const yaPasadas = new Set(v.tiempos.map((t) => t[1]));
     const vuelta = [];
     for (const t of w.tiempos.slice(1)) {
-      if (!esCampus(t[1])) break;
+      if (!esCampus(t[1]) || yaPasadas.has(t[1])) break; // hasta que sale del campus o repite parada
       vuelta.push(t);
     }
     if (!vuelta.length) continue;
     usados.add(w);
-    const seq = ultima[0];
-    vuelta.forEach((t, k) => v.tiempos.push([seq + k + 1, t[1], t[2]]));
+    vuelta.forEach((t) => v.tiempos.push([v.tiempos.length + 1, t[1], t[2]]));
     v.formas.push(w.formas[0]);
     unidos++;
   }
-  console.log(`Lanzaderas: ${unidos} viajes a la universidad siguen la vuelta al campus.`);
+  console.log(`Lanzaderas: ${anadidas} paradas del campus añadidas a la ida; ${unidos} idas siguen la vuelta al campus.`);
 }
+
 /**
- * Paradas (índices de `paradas`) de este viaje donde no se puede bajar, o undefined si se puede en todas.
+ * Paradas (índices de `paradas`) donde este viaje no deja bajar (nb) o no deja subir (ns).
  * Van por parada y no por posición para que sigan valiendo si un desvío quita paradas al recorrido.
  */
-function sinBajada(v) {
-  if (v.linea !== 'U2' || !v.tiempos.some((t) => esCampus(t[1]))) return undefined;
-  // Solo hacia la universidad: el viaje acaba en el campus (el de vuelta empieza en él).
-  if (!esCampus(v.tiempos[v.tiempos.length - 1][1]) || esCampus(v.tiempos[0][1])) return undefined;
+function restricciones(v) {
+  if (!LANZADERAS.has(v.linea) || !v.tiempos.some((t) => esCampus(t[1]))) return {};
   const nb = new Set();
-  v.tiempos.forEach((t, pos) => {
-    if (pos > 0 && !esCampus(t[1]) && numeroDe(t[1]) !== CEU) nb.add(t[1]);
-  });
-  return nb.size ? [...nb] : undefined;
+  const ns = new Set();
+  const primera = primeraPasada.get(v.linea) ?? new Set();
+  if (!esCampus(v.tiempos[0][1])) {
+    // Ida: en la ciudad solo suben (salvo el CEU en el U2); en el campus solo bajan.
+    v.tiempos.forEach((t) => {
+      if (esCampus(t[1])) ns.add(t[1]);
+      else if (!(v.linea === 'U2' && numeroDe(t[1]) === CEU)) nb.add(t[1]);
+    });
+  } else {
+    // Vuelta: las paradas de la primera pasada (ya pasó por ellas a la ida) solo suben;
+    // fuera del campus solo bajan.
+    v.tiempos.forEach((t) => {
+      if (!esCampus(t[1])) ns.add(t[1]);
+      else if (primera.has(t[1])) nb.add(t[1]);
+    });
+  }
+  // La primera parada nunca es de bajada ni la última de subida: no hace falta guardarlas.
+  nb.delete(v.tiempos[0][1]);
+  ns.delete(v.tiempos[v.tiempos.length - 1][1]);
+  return { nb: nb.size ? [...nb] : undefined, ns: ns.size ? [...ns] : undefined };
 }
 
 // --- Agrupar viajes con la misma secuencia de paradas en "patrones" ---
@@ -260,9 +345,10 @@ for (const v of viajes.values()) {
   let p = patrones.get(clave);
   if (!p) {
     p = { l: v.linea, d: v.destino, p: ps, v: [] };
-    // nb = paradas donde no se puede bajar (la app no las ofrece como bajada al buscar rutas).
-    const nb = sinBajada(v);
+    // nb / ns = paradas donde no se baja / no se sube (lanzaderas; la app las respeta al buscar rutas).
+    const { nb, ns } = restricciones(v);
     if (nb) p.nb = nb;
+    if (ns) p.ns = ns;
     patrones.set(clave, p);
     formaDePatron.set(p, v.formas);
   }
@@ -304,13 +390,7 @@ writeFileSync(salida, json);
 // --- Trazados para el mapa (formas.json, mismo orden de patrones) ---
 // Por cada patrón: puntos simplificados (cada ~8 m de error como mucho) codificados
 // como enteros de 1e-5 grados en incrementos, y la posición de cada parada en ellos.
-const puntosForma = new Map();
-for (const s of leerCsv('shapes.txt')) {
-  let lista = puntosForma.get(s.shape_id);
-  if (!lista) puntosForma.set(s.shape_id, (lista = []));
-  lista.push([Number(s.shape_pt_sequence), Number(s.shape_pt_lat), Number(s.shape_pt_lon)]);
-}
-for (const lista of puntosForma.values()) lista.sort((a, b) => a[0] - b[0]);
+// (puntosForma ya está cargado arriba)
 
 const COS_LAT = Math.cos((42.23 * Math.PI) / 180);
 const TOLERANCIA_GRADOS = 8 / 111320; // ~8 m
