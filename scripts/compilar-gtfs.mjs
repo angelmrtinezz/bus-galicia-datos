@@ -173,7 +173,8 @@ for (const t of leerCsv('trips.txt')) {
     linea: lineas.get(t.route_id) ?? '?',
     destino: limpiar(t.trip_headsign),
     servicio: idxServicio(t.service_id),
-    forma: t.shape_id,
+    // Trazados (shape_id) que recorre, en orden: normalmente uno (ver lanzaderas más abajo).
+    formas: [t.shape_id],
     tiempos: [],
   });
 }
@@ -185,21 +186,85 @@ for (const st of leerCsv('stop_times.txt')) {
   if (!hora) continue;
   v.tiempos.push([Number(st.stop_sequence), idx, segundos(hora)]);
 }
+for (const v of viajes.values()) v.tiempos.sort((a, b) => a[0] - b[0]);
+
+// --- Lanzaderas de la universidad (U1, U2) ---
+// Lo que el GTFS no cuenta y nos dijeron los usuarios (27-11-2026):
+//  1. Los viajes hacia la universidad acaban en Humanidades, pero el MISMO bus sigue dando la vuelta
+//     al campus (Económicas… Enxeñeiros, Telecomunicacións), que en el GTFS es el principio del viaje
+//     de vuelta. Sin esto, para ir a Teleco la app mandaba «transbordar» a otro U1 en Humanidades.
+//     Así que a cada viaje que acaba en Humanidades le añadimos esa vuelta, con las horas del viaje
+//     de vuelta que sale justo después.
+//  2. El U2 hacia la universidad solo deja gente en el CEU (Maxisterio, Avda. de Madrid 110,
+//     junto al Alcampo) y en el campus; en el resto de paradas solo recoge.
+const LANZADERAS = new Set(['U1', 'U2']);
+const HUMANIDADES = 8720;
+const CEU = 1990;
+const esCampus = (idx) => paradas[idx][1].includes('(CUVI)');
+const numeroDe = (idx) => paradas[idx][0];
+{
+  const lanz = [...viajes.values()].filter((v) => LANZADERAS.has(v.linea) && v.tiempos.length >= 2);
+  const salenDeHumanidades = lanz.filter((v) => numeroDe(v.tiempos[0][1]) === HUMANIDADES);
+  const usados = new Set();
+  let unidos = 0;
+  for (const v of lanz) {
+    const ultima = v.tiempos[v.tiempos.length - 1];
+    if (numeroDe(ultima[1]) !== HUMANIDADES) continue;
+    // El viaje de vuelta del mismo día que sale de Humanidades en los 10 minutos siguientes.
+    let w = null;
+    for (const c of salenDeHumanidades) {
+      if (usados.has(c) || c.servicio !== v.servicio) continue;
+      const espera = c.tiempos[0][2] - ultima[2];
+      if (espera < 0 || espera > 600) continue;
+      if (!w || c.tiempos[0][2] < w.tiempos[0][2]) w = c;
+    }
+    if (!w) continue;
+    // Su tramo por el campus, sin Humanidades (ya está) y hasta la última parada del campus.
+    const vuelta = [];
+    for (const t of w.tiempos.slice(1)) {
+      if (!esCampus(t[1])) break;
+      vuelta.push(t);
+    }
+    if (!vuelta.length) continue;
+    usados.add(w);
+    const seq = ultima[0];
+    vuelta.forEach((t, k) => v.tiempos.push([seq + k + 1, t[1], t[2]]));
+    v.formas.push(w.formas[0]);
+    unidos++;
+  }
+  console.log(`Lanzaderas: ${unidos} viajes a la universidad siguen la vuelta al campus.`);
+}
+/**
+ * Paradas (índices de `paradas`) de este viaje donde no se puede bajar, o undefined si se puede en todas.
+ * Van por parada y no por posición para que sigan valiendo si un desvío quita paradas al recorrido.
+ */
+function sinBajada(v) {
+  if (v.linea !== 'U2' || !v.tiempos.some((t) => esCampus(t[1]))) return undefined;
+  // Solo hacia la universidad: el viaje acaba en el campus (el de vuelta empieza en él).
+  if (!esCampus(v.tiempos[v.tiempos.length - 1][1]) || esCampus(v.tiempos[0][1])) return undefined;
+  const nb = new Set();
+  v.tiempos.forEach((t, pos) => {
+    if (pos > 0 && !esCampus(t[1]) && numeroDe(t[1]) !== CEU) nb.add(t[1]);
+  });
+  return nb.size ? [...nb] : undefined;
+}
 
 // --- Agrupar viajes con la misma secuencia de paradas en "patrones" ---
 const patrones = new Map();
-const formaDePatron = new Map(); // patrón → shape_id (para los trazados del mapa)
+const formaDePatron = new Map(); // patrón → shape_ids (para los trazados del mapa)
 for (const v of viajes.values()) {
   if (v.tiempos.length < 2) continue;
-  v.tiempos.sort((a, b) => a[0] - b[0]);
   const ps = v.tiempos.map((t) => t[1]);
   const hs = v.tiempos.map((t) => t[2]);
   const clave = `${v.linea}|${v.destino}|${ps.join(',')}`;
   let p = patrones.get(clave);
   if (!p) {
     p = { l: v.linea, d: v.destino, p: ps, v: [] };
+    // nb = paradas donde no se puede bajar (la app no las ofrece como bajada al buscar rutas).
+    const nb = sinBajada(v);
+    if (nb) p.nb = nb;
     patrones.set(clave, p);
-    formaDePatron.set(p, v.forma);
+    formaDePatron.set(p, v.formas);
   }
   const fila = [v.servicio, hs[0]];
   for (let i = 1; i < hs.length; i++) fila.push(Math.max(0, hs[i] - hs[i - 1]));
@@ -283,8 +348,9 @@ function simplificar(pts) {
 
 let totalPuntos = 0;
 const formas = resultado.patrones.map((p) => {
-  const pts = puntosForma.get(formaDePatron.get(p));
-  if (!pts || pts.length < 2) return null;
+  // Varios trazados seguidos (lanzaderas que siguen la vuelta al campus): se ponen uno tras otro.
+  const pts = formaDePatron.get(p).flatMap((id) => puntosForma.get(id) ?? []);
+  if (pts.length < 2) return null;
   // Posición de cada parada en el trazado (avanzando siempre hacia delante).
   const posParadas = [];
   const malas = [];

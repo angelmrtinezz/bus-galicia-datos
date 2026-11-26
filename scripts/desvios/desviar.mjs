@@ -49,7 +49,7 @@ export function aTrabajo(patron, forma, paradas) {
     si.push(pos);
     desde = pos;
   }
-  return { l: patron.l, d: patron.d, p: patron.p.slice(), v: patron.v.map((f) => f.slice()), pts, acum, si, dv: [], o: [] };
+  return { l: patron.l, d: patron.d, ...(patron.nb ? { nb: patron.nb } : {}), p: patron.p.slice(), v: patron.v.map((f) => f.slice()), pts, acum, si, dv: [], o: [] };
 }
 
 /** Horas (s) de llegada a cada parada de un viaje. */
