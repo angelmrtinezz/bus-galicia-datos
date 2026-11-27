@@ -1,0 +1,74 @@
+# Vigilante de Paradiña: cada 30 minutos comprueba que el servidor, el tiempo real, los horarios
+# publicados y el robot de datos funcionan (scripts/vigilante/revisar.mjs).
+#
+# Si algo FALLA, abre la incidencia «Vigilante: algo falla en Paradiña» con la etiqueta
+# «vigilante» (GitHub manda un correo al abrirla). Solo vuelve a escribir si cambia lo que falla,
+# para no llenar el correo. Se cierra sola cuando todo vuelve a ir bien.
+# El arreglador (tarea local de Claude Code en el PC) busca esa incidencia y prepara el arreglo;
+# nunca publica nada sin que el dueño lo confirme en Claude.
+# Los AVISOS (cosas no urgentes) no abren incidencia: se ven en el resumen de cada ejecución.
+
+name: Vigilante
+
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  actions: read
+
+concurrency:
+  group: vigilante
+  cancel-in-progress: false
+
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Revisar
+        id: revisar
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/vigilante/revisar.mjs salida-vigilante
+
+      - name: Resumen
+        if: always()
+        run: cat salida-vigilante/informe.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Abrir, actualizar o cerrar la incidencia
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITULO="Vigilante: algo falla en Paradiña"
+          ESTADO=$(jq -r '.estado' salida-vigilante/informe.json)
+          # Huella = qué comprobaciones fallan; solo se avisa de nuevo si cambia.
+          HUELLA=$(jq -r '[.comprobaciones[] | select(.ok == false and .nivel == "fallo") | .id] | join(",")' salida-vigilante/informe.json)
+          ABIERTA=$(gh issue list --state open --label vigilante --json number --jq '.[0].number // empty')
+          if [ "$ESTADO" = "fallo" ]; then
+            gh label create vigilante --color D93F0B --description "Abierta por el vigilante" --force >/dev/null
+            CUERPO=$(printf '%s\n\nEjecución: %s\n\nEl arreglador lo investigará la próxima vez que esté encendido el PC y te dejará el arreglo en una conversación de Claude para que lo confirmes.\n\n<!-- huella:%s -->' \
+              "$(cat salida-vigilante/informe.md)" "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" "$HUELLA")
+            if [ -z "$ABIERTA" ]; then
+              gh issue create --title "$TITULO" --label vigilante --body "$CUERPO"
+            else
+              ANTES=$(gh issue view "$ABIERTA" --json body --jq '.body' | grep -o 'huella:[^ ]*' | sed 's/huella://')
+              gh issue edit "$ABIERTA" --body "$CUERPO"
+              if [ "$ANTES" != "$HUELLA" ]; then
+                gh issue comment "$ABIERTA" --body "Ha cambiado lo que falla: ahora **$HUELLA** (antes $ANTES)."
+              fi
+            fi
+          elif [ -n "$ABIERTA" ]; then
+            gh issue close "$ABIERTA" --comment "$(printf 'Todo vuelve a funcionar.\n\n%s' "$(cat salida-vigilante/informe.md)")"
+          fi
